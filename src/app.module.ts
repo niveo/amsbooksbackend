@@ -6,6 +6,8 @@ import { ClsModule, ClsModuleFactoryOptions } from 'nestjs-cls';
 import { converterConfig } from './common/utils';
 import { v5 as uuidv5 } from 'uuid';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthorizationGuard } from './authorization/authorization.guard';
 
 @Module({
   imports: [
@@ -56,6 +58,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
+    },
+  ],
 })
 export class AppModule {}
