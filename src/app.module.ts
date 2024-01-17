@@ -8,9 +8,21 @@ import { v5 as uuidv5 } from 'uuid';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
-import { IdiomaService } from './services';
+import {
+  CategoriaService,
+  IdiomaService,
+  TagService,
+  AutorService,
+} from './services';
 import { USER_ID_TEST } from './common';
-import { Idioma } from './entities';
+import {
+  Autor,
+  Categoria,
+  Idioma,
+  Livro,
+  LivroCapitulo,
+  Tag,
+} from './entities';
 
 @Module({
   imports: [
@@ -56,25 +68,35 @@ import { Idioma } from './entities';
           url: config.get('DATABASE_URL'),
           password: config.get('PGPASSWORD'),
           database: config.get('PGDATABASE'),
-          entities: [Idioma],
+          entities: [Idioma, Categoria, Tag, Autor, Livro, LivroCapitulo],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(
             config.get<boolean>('ENV_PRODUCTION'),
             Boolean,
           ),
           ssl: converterConfig(config.get<boolean>('ENV_PRODUCTION'), Boolean),
-          logging: true,
+          logging: false,
         };
       },
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Idioma]),
+    TypeOrmModule.forFeature([
+      Idioma,
+      Categoria,
+      Tag,
+      Autor,
+      Livro,
+      LivroCapitulo,
+    ]),
   ],
   controllers: [AppController],
   providers: [
     AppService,
     IdiomaService,
+    TagService,
+    AutorService,
+    CategoriaService,
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,

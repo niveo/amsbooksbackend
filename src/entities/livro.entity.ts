@@ -3,6 +3,7 @@ import {
   Entity,
   Index,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -12,8 +13,12 @@ import { Autor } from './autor.entity';
 import { Idioma } from './idioma.entity';
 import { Categoria } from './categoria.entity';
 import { LivroCapitulo } from './livro-capitulo.entity';
+import { Tag } from './tag.entity';
+import { NivelLeitura } from './../enuns/nivel-leitura.enum';
 
-@Entity()
+@Entity({
+  name: 'livros',
+})
 export class Livro extends BaseEntity {
   @Index()
   @Column('text', {
@@ -46,6 +51,17 @@ export class Livro extends BaseEntity {
   })
   @JoinColumn()
   categoria: Categoria;
+
+  @ManyToMany(() => Tag)
+  @JoinColumn()
+  tags: Tag[];
+
+  @Column({
+    type: 'enum',
+    enum: NivelLeitura,
+    default: NivelLeitura.UNDEFINED,
+  })
+  nivelLeitura: NivelLeitura;
 
   @Column('timestamp', {
     nullable: true,

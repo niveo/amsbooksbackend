@@ -1,8 +1,12 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, Index, OneToMany } from 'typeorm';
+import { Column, Entity, Index, OneToMany, Unique } from 'typeorm';
 import { Livro } from './livro.entity';
+import { BaseEntity } from './base-entity';
 
-@Entity()
+@Unique('UNQ_NOME_USERID', ['nome', 'userId'])
+@Entity({
+  name: 'autores',
+})
 export class Autor extends BaseEntity {
   @Index()
   @Column('text', {
@@ -14,13 +18,13 @@ export class Autor extends BaseEntity {
     nullable: false,
     default: false,
   })
-  foto: boolean = false;
+  foto?: boolean = false;
 
   @Column('boolean', {
     nullable: false,
     default: true,
   })
-  ativo: boolean = true;
+  ativo?: boolean = true;
 
   @Exclude()
   @Index()
@@ -32,11 +36,11 @@ export class Autor extends BaseEntity {
   @Column('text', {
     nullable: true,
   })
-  descricao: string;
+  descricao?: string;
 
   @OneToMany(() => Livro, (metadata) => metadata.autor, {
     cascade: true,
     createForeignKeyConstraints: false,
   })
-  livros: Livro[];
+  livros?: Livro[];
 }

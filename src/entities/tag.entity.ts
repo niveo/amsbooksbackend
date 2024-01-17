@@ -1,10 +1,8 @@
 import { Column, Entity, Index } from 'typeorm';
 import { BaseEntity } from './base-entity';
 
-@Entity({
-  name: 'categorias',
-})
-export class Categoria extends BaseEntity {
+@Entity({ name: 'tags' })
+export class Tag extends BaseEntity {
   @Index()
   @Column('text', {
     nullable: false,

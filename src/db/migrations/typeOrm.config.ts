@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
-import { Idioma } from 'src/entities';
+import { Idioma } from '../../entities';
 
 config();
 
@@ -15,7 +15,7 @@ export default new DataSource({
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
   entities: [Idioma],
-  migrations: ['src/db/migrations/*{.ts,.js}'],
+  migrations: ['../db/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
   // ssl: true
 });

@@ -2,7 +2,9 @@ import { Column, Entity, Index, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base-entity';
 import { Livro } from './livro.entity';
 
-@Entity()
+@Entity({
+  name: 'livros_capitulos'
+})
 export class LivroCapitulo extends BaseEntity {
   @Index()
   @Column('text', {
