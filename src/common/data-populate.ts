@@ -299,5 +299,7 @@ export const AUTORES: Autor[] = [
   {
     nome: 'Antoinette Moses',
     userId: '1',
+    descricao:
+      'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
   },
 ];
