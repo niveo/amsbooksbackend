@@ -28,7 +28,9 @@ export class Livro extends BaseEntity {
   autor?: Autor;
 
   @Index()
-  @OneToOne(() => Idioma)
+  @OneToOne(() => Idioma, {
+    nullable: false,
+  })
   @JoinColumn()
   idioma: Idioma;
 
@@ -39,7 +41,9 @@ export class Livro extends BaseEntity {
   capa: boolean = false;
 
   @Index()
-  @OneToOne(() => Categoria)
+  @OneToOne(() => Categoria, {
+    nullable: false,
+  })
   @JoinColumn()
   categoria: Categoria;
 
