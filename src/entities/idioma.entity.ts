@@ -1,11 +1,14 @@
 import { Column, Entity, Index } from 'typeorm';
 import { BaseEntity } from './base-entity';
 
-@Entity()
+@Entity({
+  name: 'idiomas',
+})
 export class Idioma extends BaseEntity {
   @Index()
   @Column('text', {
     nullable: false,
+    unique: true,
   })
   nome: string;
 }

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from './base-entity';
 import { Autor } from './autor.entity';
-import { Idioma } from './idiomas.entity';
+import { Idioma } from './idioma.entity';
 import { Categoria } from './categoria.entity';
 import { LivroCapitulo } from './livro-capitulo.entity';
 

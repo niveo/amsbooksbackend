@@ -1,0 +1,2 @@
+npm run typeorm:create-migration --name=AddColumnCatalogo
+npm run typeorm:run-migrations
