@@ -12,9 +12,15 @@ export class Autor extends BaseEntity {
 
   @Column('boolean', {
     nullable: false,
+    default: false,
+  })
+  foto: boolean = false;
+
+  @Column('boolean', {
+    nullable: false,
     default: true,
   })
-  ativo: boolean;
+  ativo: boolean = true;
 
   @Exclude()
   @Index()

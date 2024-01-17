@@ -32,6 +32,12 @@ export class Livro extends BaseEntity {
   @JoinColumn()
   idioma: Idioma;
 
+  @Column('boolean', {
+    nullable: false,
+    default: false,
+  })
+  capa: boolean = false;
+
   @Index()
   @OneToOne(() => Categoria)
   @JoinColumn()
