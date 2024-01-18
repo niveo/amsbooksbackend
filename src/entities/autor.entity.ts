@@ -3,9 +3,11 @@ import { Column, Entity, Index, OneToMany, Unique } from 'typeorm';
 import { Livro } from './livro.entity';
 import { BaseEntity } from './base-entity';
 
+export const NOME_TABELA_AUTOR = 'autores';
+
 @Unique('UNQ_NOME_USERID', ['nome', 'userId'])
 @Entity({
-  name: 'autores',
+  name: NOME_TABELA_AUTOR,
 })
 export class Autor extends BaseEntity {
   @Index()

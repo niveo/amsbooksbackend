@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -13,6 +13,7 @@ import {
   IdiomaService,
   TagService,
   AutorService,
+  SeedingService,
 } from './services';
 import { USER_ID_TEST } from './common';
 import {
@@ -97,10 +98,16 @@ import {
     TagService,
     AutorService,
     CategoriaService,
+    SeedingService,
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  constructor(private readonly sr: SeedingService) {}
+  async onApplicationBootstrap() {
+    await this.sr.seed();
+  }
+}
