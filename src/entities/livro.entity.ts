@@ -63,6 +63,12 @@ export class Livro extends BaseEntity {
   })
   capa?: boolean = false;
 
+  @Column('boolean', {
+    nullable: false,
+    default: false,
+  })
+  liberarTraducao?: boolean = false;
+
   @Index()
   @OneToOne(() => Categoria, {
     nullable: false,
