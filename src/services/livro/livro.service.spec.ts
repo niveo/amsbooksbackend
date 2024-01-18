@@ -3,19 +3,19 @@ import { AppModule } from '../../app.module';
 import { DataSource } from 'typeorm';
 import { Idioma } from '../../entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AutorService } from './autor.service';
+import { LivroService } from './livro.service';
 
-describe('AutorService', () => {
+describe('LivroService', () => {
   let dataSource: DataSource;
-  let service: AutorService;
+  let service: LivroService;
 
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([Idioma])],
-      providers: [AutorService],
+      providers: [LivroService],
     }).compile();
 
-    service = app.get<AutorService>(AutorService);
+    service = app.get<LivroService>(LivroService);
     dataSource = app.get<DataSource>(DataSource);
   });
 

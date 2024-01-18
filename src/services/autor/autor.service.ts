@@ -14,4 +14,13 @@ export class AutorService {
       cache: true,
     });
   }
+
+  salvar(autor: Autor) {
+    return this.repository.save(autor);
+  }
+
+  async desativarAutor(autorId: number): Promise<number> {
+    return (await this.repository.update({ id: autorId }, { ativo: false }))
+      .affected;
+  }
 }
