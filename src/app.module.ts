@@ -24,6 +24,8 @@ import {
   LivroCapitulo,
   Tag,
 } from './entities';
+import { LivroController } from './controllers';
+import { LivroService } from './services/livro/livro.service';
 
 @Module({
   imports: [
@@ -91,7 +93,6 @@ import {
       LivroCapitulo,
     ]),
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     IdiomaService,
@@ -99,11 +100,13 @@ import {
     AutorService,
     CategoriaService,
     SeedingService,
+    LivroService,
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
     },
   ],
+  controllers: [AppController, LivroController],
 })
 export class AppModule implements OnApplicationBootstrap {
   constructor(private readonly sr: SeedingService) {}
