@@ -24,6 +24,7 @@ export abstract class BaseEntity {
   @DeleteDateColumn()
   removido?: Date;
 
+  //Versão sera usado como revisão
   @Exclude()
   @VersionColumn()
   versao?: number;

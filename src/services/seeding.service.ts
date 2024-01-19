@@ -115,6 +115,7 @@ export class SeedingService {
       const livros: Livro[] = [
         {
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
+          capa: true,
           capitulos: this.carregarCapitulosFile('capitulos_jojo.html'),
           descritivo:
             "The loss of loved ones is a hard blow for everyone. How can a child survive this? Jojo is 10 years old. Soldiers came to his village and killed everyone. The boy was playing in the field at that time. That is why he remained alive. Only the boy does not understand how to live now. The question in his mind is: 'Why wasn't I with them?'. One day Jojo meets Chris. Chris is a British journalist. Jojo leaves with Chris. During this journey, they observe a country that is suffering from terrible war. Much of what he sees helps the boy to know himself, understand his thoughts and choose his life path. This book is filled with thoughts about life, experience and bitterness. And it also has answers to many questions.",
@@ -148,6 +149,7 @@ export class SeedingService {
         {
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: capitulosAlice,
+          capa: true,
           descritivo:
             'The world-famous fairy tale was written by an English writer and mathematician in 1865. This book is one of the best examples of nonsense literature. In the fairy tale, the reader can see dozens of complicated philosophical, mathematical and linguistic jokes. In this story, we can find many interesting hidden meanings. The girl Alice spends her time on the river bank. She is bored. Suddenly she sees a strange white rabbit. The small animal has a big pocket watch in his paws and he is in a hurry. Alice follows the rabbit and falls into a hole. The curious girl finds herself in a phantasmagoric world inhabited by many anthropomorphic creatures. And this is only the beginning of her unusual, strange and surprising adventures.',
           titulo: 'Alice in Wonderland',

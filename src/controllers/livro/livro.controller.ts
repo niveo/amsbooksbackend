@@ -1,6 +1,12 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { LivroService } from '../../services/livro/livro.service';
-import { Livro } from '../../entities';
 
 @Controller({
   path: 'livros',
@@ -10,7 +16,13 @@ export class LivroController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll(): Promise<Livro[]> {
-    return this.service.getAll();
+  getAll(): Promise<any[]> {
+    return this.service.getAllBasico();
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  getId(@Param('id', ParseIntPipe) id: number): Promise<any[]> {
+    return this.service.getId(id);
   }
 }
