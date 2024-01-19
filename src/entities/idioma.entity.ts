@@ -7,10 +7,11 @@ export const NOME_TABELA_IDIOMA = 'idiomas';
   name: NOME_TABELA_IDIOMA,
 })
 export class Idioma extends BaseEntity {
-  @Index()
+  @Index({
+    unique: true,
+  })
   @Column('text', {
     nullable: false,
-    unique: true,
   })
   nome: string;
 }

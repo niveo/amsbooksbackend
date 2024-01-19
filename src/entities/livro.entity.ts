@@ -53,6 +53,7 @@ export class Livro extends BaseEntity {
   @Index()
   @OneToOne(() => Idioma, {
     nullable: false,
+    createForeignKeyConstraints: false,
   })
   @JoinColumn()
   idioma: Idioma;
@@ -72,6 +73,7 @@ export class Livro extends BaseEntity {
   @Index()
   @OneToOne(() => Categoria, {
     nullable: false,
+    createForeignKeyConstraints: false,
   })
   @JoinColumn()
   categoria: Categoria;

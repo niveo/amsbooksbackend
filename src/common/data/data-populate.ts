@@ -394,4 +394,10 @@ export const AUTORES: Autor[] = [
     descricao:
       'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
   },
+  {
+    nome: 'Lewis Carroll',
+    userId: '2',
+    descricao:
+      'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
+  },
 ];
