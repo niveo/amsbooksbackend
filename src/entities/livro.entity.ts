@@ -58,11 +58,10 @@ export class Livro extends BaseEntity {
   @JoinColumn()
   idioma: Idioma;
 
-  @Column('boolean', {
-    nullable: false,
-    default: false,
+  @Column('text', {
+    nullable: true,
   })
-  capa?: boolean = false;
+  capaUrl?: string;
 
   @Column('boolean', {
     nullable: false,
