@@ -67,7 +67,7 @@ export class Livro extends BaseEntity {
     nullable: false,
     default: false,
   })
-  liberarTraducao?: boolean = false;
+  liberarTraducao?: boolean;
 
   @Index()
   @OneToOne(() => Categoria, {
@@ -92,7 +92,7 @@ export class Livro extends BaseEntity {
     enum: NivelLeitura,
     default: NivelLeitura.UNDEFINED,
   })
-  nivelLeitura: NivelLeitura = NivelLeitura.UNDEFINED;
+  nivelLeitura: NivelLeitura;
 
   @Column('timestamp', {
     nullable: true,

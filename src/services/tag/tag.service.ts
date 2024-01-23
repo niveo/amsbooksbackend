@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tag } from '../../entities';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class TagService {
   constructor(
     @InjectRepository(Tag)
     private repository: Repository<Tag>,
+    private dataSource: DataSource,
   ) {}
 
-  getAll(): Promise<Tag[]> {
-    return this.repository.find({
-      cache: true,
-    });
+  getAll(): Promise<any[]> {
+    return this.dataSource.query(`
+      WITH livrosTags AS (
+        SELECT livros_has_tags."tagsId", count(*) contaLivros
+        FROM livros_has_tags group by livros_has_tags."tagsId"
+      )
+      SELECT tags.id, tags.nome, livrosTags.contaLivros FROM tags
+      left outer join livrosTags ON livrosTags."tagsId" = tags.id
+      order by tags.nome
+    `);
   }
 }

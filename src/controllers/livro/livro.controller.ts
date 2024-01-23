@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { LivroService } from '../../services/livro/livro.service';
 
@@ -16,8 +17,12 @@ export class LivroController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  getAll(): Promise<any[]> {
-    return this.service.getAllBasico();
+  getAll(
+    @Query('pagesize', ParseIntPipe) pagesize: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('params') params: string,
+  ): Promise<any> {
+    return this.service.getAllBasico(pagesize, page, params);
   }
 
   @Get(':id')
