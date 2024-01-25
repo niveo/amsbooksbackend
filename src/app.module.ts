@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClsModule, ClsModuleFactoryOptions } from 'nestjs-cls';
 import { converterConfig } from './common/utils';
-import { v5 as uuidv5 } from 'uuid';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
@@ -15,7 +14,6 @@ import {
   AutorService,
   SeedingService,
 } from './services';
-import { USER_ID_TEST } from './common';
 import {
   Autor,
   Categoria,
@@ -38,14 +36,14 @@ import { AuthModule } from './authorization/auth.module';
       isGlobal: true,
     }),
     ClsModule.forRootAsync({
-      useFactory(configService: ConfigService) {
+      useFactory() {
         const ca: ClsModuleFactoryOptions = {
           middleware: {
             // automatically mount the
             // ClsMiddleware for all routes
             mount: true,
             setup: (cls, req) => {
-              if (
+              /* if (
                 !converterConfig(configService.get('ENV_PRODUCTION'), Boolean)
               ) {
                 cls.set('userId', USER_ID_TEST.userId);
@@ -55,35 +53,31 @@ import { AuthModule } from './authorization/auth.module';
                   configService.get('AUDIENCE'),
                 );
                 cls.set('userId', userId);
-              }
+              }*/
             },
           },
         };
         return ca;
       },
-      inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (config: ConfigService) => {
+      useFactory: () => {
         return {
           extra: { max: 10 },
           migrations: [],
           migrate: true,
           migrationsRun: true,
           type: 'postgres',
-          host: config.get('PGHOST'),
+          host: process.env.PGHOST,
           port: 5432,
-          username: config.get('PGUSER'),
-          url: config.get('DATABASE_URL'),
-          password: config.get('PGPASSWORD'),
-          database: config.get('PGDATABASE'),
+          username: process.env.PGUSER,
+          url: process.env.DATABASE_URL,
+          password: process.env.PGPASSWORD,
+          database: process.env.PGDATABASE,
           entities: [Idioma, Categoria, Tag, Autor, Livro, LivroCapitulo],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-          synchronize: !converterConfig(
-            config.get<boolean>('ENV_PRODUCTION'),
-            Boolean,
-          ),
-          ssl: converterConfig(config.get<boolean>('ENV_PRODUCTION'), Boolean),
+          synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
+          ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
           logging: false,
         };
       },
