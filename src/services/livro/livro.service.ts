@@ -69,8 +69,6 @@ export class LivroService {
   }
 
   getId(id: number): Promise<any> {
-    console.log(id);
-
     return this.repository
       .createQueryBuilder('livros')
 

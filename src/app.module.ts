@@ -30,10 +30,13 @@ import {
   TagController,
 } from './controllers';
 import { LivroService } from './services/livro/livro.service';
+import { AuthModule } from './authorization/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ClsModule.forRootAsync({
       useFactory(configService: ConfigService) {
         const ca: ClsModuleFactoryOptions = {
@@ -58,7 +61,6 @@ import { LivroService } from './services/livro/livro.service';
         };
         return ca;
       },
-      imports: [ConfigModule],
       inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
@@ -85,7 +87,6 @@ import { LivroService } from './services/livro/livro.service';
           logging: false,
         };
       },
-      imports: [ConfigModule],
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([
@@ -96,6 +97,7 @@ import { LivroService } from './services/livro/livro.service';
       Livro,
       LivroCapitulo,
     ]),
+    AuthModule,
   ],
   providers: [
     AppService,
