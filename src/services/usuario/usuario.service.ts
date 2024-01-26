@@ -19,6 +19,6 @@ export class UsuarioService {
   }
 
   replace(autor: Usuario) {
-    return this.repository.upsert(autor, ['userId']);
+    return this.repository.upsert(autor, ['email']);
   }
 }
