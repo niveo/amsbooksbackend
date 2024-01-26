@@ -20,6 +20,7 @@ import {
   TagService,
   AutorService,
   SeedingService,
+  LivroComentarioService,
 } from './services';
 import {
   Autor,
@@ -33,6 +34,7 @@ import {
 } from './entities';
 import {
   CategoriaController,
+  LivroComentarioController,
   LivroController,
   TagController,
 } from './controllers';
@@ -109,7 +111,20 @@ import { ManutencaoBancoService } from './services/manutencao-banco.service';
     ]),
     AuthModule,
   ],
+  controllers: [
+    AppController,
+    LivroController,
+    CategoriaController,
+    TagController,
+    LivroComentarioController,
+  ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
+    },
+    UsuarioService,
+    LivroService,
     AppService,
     IdiomaService,
     TagService,
@@ -117,18 +132,7 @@ import { ManutencaoBancoService } from './services/manutencao-banco.service';
     CategoriaService,
     SeedingService,
     ManutencaoBancoService,
-    LivroService,
-    UsuarioService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthorizationGuard,
-    },
-  ],
-  controllers: [
-    AppController,
-    LivroController,
-    CategoriaController,
-    TagController,
+    LivroComentarioService,
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

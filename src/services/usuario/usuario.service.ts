@@ -10,8 +10,12 @@ export class UsuarioService {
     private readonly repository: Repository<Usuario>,
   ) {}
 
-  getId(id: number): Promise<any> {
-    return this.repository.findOneByOrFail({ id: id });
+  findOneOrFail(id: number) {
+    return this.repository.findOneOrFail({
+      where: {
+        id: id,
+      },
+    });
   }
 
   salvar(autor: Usuario) {

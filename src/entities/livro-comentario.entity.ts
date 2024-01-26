@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Livro } from './livro.entity';
 import { Usuario } from './usuario.entity';
@@ -18,6 +18,11 @@ export const NOME_TABELA_LIVRO_COMENTARIOS = 'livros_comentarios';
   name: NOME_TABELA_LIVRO_COMENTARIOS,
 })
 export class LivroComentario {
+  @PrimaryGeneratedColumn('increment', {
+    type: 'int',
+  })
+  id?: number;
+
   @Column('text', {
     nullable: false,
   })
@@ -39,9 +44,6 @@ export class LivroComentario {
 
   @Exclude()
   @Index()
-  @PrimaryColumn({
-    type: 'integer',
-  })
   @OneToOne(() => Usuario, {
     nullable: false,
     createForeignKeyConstraints: false,
@@ -50,9 +52,6 @@ export class LivroComentario {
   usuario?: Usuario;
 
   @Index()
-  @PrimaryColumn({
-    type: 'integer',
-  })
   @ManyToOne(() => Livro, (metadata) => metadata.comentarios, {
     nullable: false,
     createForeignKeyConstraints: false,

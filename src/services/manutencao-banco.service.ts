@@ -100,7 +100,7 @@ export class ManutencaoBancoService {
         (f) => f.name === nomeFk,
       );
 
-      console.log(tabela, tabelaReferencia, nomeFk, indexFk);
+      //console.log(tabela, tabelaReferencia, nomeFk, indexFk);
 
       if (indexFk !== -1) return;
       await queryRunner.createForeignKey(

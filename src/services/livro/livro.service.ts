@@ -93,6 +93,14 @@ export class LivroService {
       .getOneOrFail();
   }
 
+  findOneOrFail(id: number) {
+    return this.repository.findOneOrFail({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   getAll(): Promise<Livro[]> {
     return this.repository.find({
       cache: true,
