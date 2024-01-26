@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager, QueryRunner, TableForeignKey } from 'typeorm';
-import { AUTORES, CATEGORIAS, IDIOMAS, TAGS } from '../common';
+import { CATEGORIAS, IDIOMAS, TAGS } from '../common';
 import {
   Autor,
   Categoria,
@@ -13,7 +13,9 @@ import {
   NOME_TABELA_LIVRO,
   NOME_TABELA_LIVRO_CAPITULO,
   NOME_TABELA_TAG,
+  NOME_TABELA_USUARIO,
   Tag,
+  Usuario,
 } from '../entities';
 import { NivelLeitura } from 'src/enuns';
 import { In } from 'typeorm';
@@ -39,6 +41,15 @@ export class SeedingService {
         NOME_TABELA_AUTOR,
         ['id'],
         ['autorId'],
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+
+        NOME_TABELA_AUTOR,
+        NOME_TABELA_USUARIO,
+        ['id'],
+        ['usuarioId'],
       );
 
       await this.criarFk(
@@ -96,9 +107,50 @@ export class SeedingService {
         ['nome'],
       );
 
+      await this.upsert<Usuario>(
+        tr,
+        NOME_TABELA_USUARIO,
+        Usuario,
+        [
+          {
+            nome: 'TESTE 1',
+            email: 'teste1@gmail.com',
+            userId: '1',
+          },
+          {
+            nome: 'TESTE 2',
+            email: 'teste2@gmail.com',
+            userId: '2',
+          },
+        ],
+        ['userId'],
+      );
+
+      const usuario1 = await tr.findOne(Usuario, {
+        where: { email: 'teste1@gmail.com' },
+      });
+
+      const usuario2 = await tr.findOne(Usuario, {
+        where: { email: 'teste2@gmail.com' },
+      });
+
+      const AUTORES: Autor[] = [
+        {
+          nome: 'Antoinette Moses',
+          usuario: usuario1,
+          descricao:
+            'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
+        },
+        {
+          nome: 'Lewis Carroll',
+          usuario: usuario2,
+          descricao:
+            'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
+        },
+      ];
+
       await this.upsert<Autor>(tr, NOME_TABELA_AUTOR, Autor, AUTORES, [
-        'nome',
-        'userId',
+        'usuario',
       ]);
 
       await tr.delete(Livro, {});
@@ -174,80 +226,7 @@ export class SeedingService {
         },
       ];
 
-      await tr.save(Livro, [
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-        ...livros,
-      ]);
+      await tr.save(Livro, [...livros]);
     });
   }
 

@@ -1,9 +1,11 @@
+import { AuthService } from './authorization/auth.service';
 import {
   MiddlewareConsumer,
   Module,
   NestModule,
   OnApplicationBootstrap,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -44,24 +46,17 @@ import { UsuarioService } from './services/usuario/usuario.service';
       isGlobal: true,
     }),
     ClsModule.forRootAsync({
-      useFactory() {
+      useFactory(authService: AuthService) {
         const ca: ClsModuleFactoryOptions = {
           middleware: {
             // automatically mount the
             // ClsMiddleware for all routes
             mount: true,
-            setup: (cls, req) => {
-              /* if (
-                !converterConfig(configService.get('ENV_PRODUCTION'), Boolean)
-              ) {
-                cls.set('userId', USER_ID_TEST.userId);
-              } else if (req.headers['userid']) {
-                const userId = uuidv5(
-                  req.headers['userid'],
-                  configService.get('AUDIENCE'),
-                );
-                cls.set('userId', userId);
-              }*/
+            setup: (cls, req: Request) => {
+              try {
+                const data = authService.getDataToken(req);
+                cls.set('userId', data.sub);
+              } catch (e) {}
             },
           },
         };
@@ -83,13 +78,13 @@ import { UsuarioService } from './services/usuario/usuario.service';
           password: process.env.PGPASSWORD,
           database: process.env.PGDATABASE,
           entities: [
+            Usuario,
             Idioma,
             Categoria,
             Tag,
             Autor,
             Livro,
             LivroCapitulo,
-            Usuario,
           ],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
@@ -100,13 +95,13 @@ import { UsuarioService } from './services/usuario/usuario.service';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([
+      Usuario,
       Idioma,
       Categoria,
       Tag,
       Autor,
       Livro,
       LivroCapitulo,
-      Usuario,
     ]),
     AuthModule,
   ],

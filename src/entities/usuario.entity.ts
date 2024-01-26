@@ -27,5 +27,5 @@ export class Usuario extends BaseEntity {
     nullable: false,
     unique: true,
   })
-  userId: string;
+  userId?: string;
 }
