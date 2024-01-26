@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { Livro } from './livro.entity';
 import { Usuario } from './usuario.entity';
@@ -14,6 +15,7 @@ import { Exclude } from 'class-transformer';
 
 export const NOME_TABELA_LIVRO_COMENTARIOS = 'livros_comentarios';
 
+@Unique('UNQ_USUARIO_LIVRO', ['usuario', 'livro'])
 @Entity({
   name: NOME_TABELA_LIVRO_COMENTARIOS,
 })
