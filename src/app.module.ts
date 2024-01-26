@@ -1,4 +1,9 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -21,6 +26,7 @@ import {
   Livro,
   LivroCapitulo,
   Tag,
+  Usuario,
 } from './entities';
 import {
   CategoriaController,
@@ -29,6 +35,8 @@ import {
 } from './controllers';
 import { LivroService } from './services/livro/livro.service';
 import { AuthModule } from './authorization/auth.module';
+import { UsuarioMiddleware } from './middlewares/usuario.middleware';
+import { UsuarioService } from './services/usuario/usuario.service';
 
 @Module({
   imports: [
@@ -74,7 +82,15 @@ import { AuthModule } from './authorization/auth.module';
           url: process.env.DATABASE_URL,
           password: process.env.PGPASSWORD,
           database: process.env.PGDATABASE,
-          entities: [Idioma, Categoria, Tag, Autor, Livro, LivroCapitulo],
+          entities: [
+            Idioma,
+            Categoria,
+            Tag,
+            Autor,
+            Livro,
+            LivroCapitulo,
+            Usuario,
+          ],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
           ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
@@ -90,6 +106,7 @@ import { AuthModule } from './authorization/auth.module';
       Autor,
       Livro,
       LivroCapitulo,
+      Usuario,
     ]),
     AuthModule,
   ],
@@ -101,6 +118,7 @@ import { AuthModule } from './authorization/auth.module';
     CategoriaService,
     SeedingService,
     LivroService,
+    UsuarioService,
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
@@ -113,8 +131,13 @@ import { AuthModule } from './authorization/auth.module';
     TagController,
   ],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule implements OnApplicationBootstrap, NestModule {
   constructor(private readonly sr: SeedingService) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(UsuarioMiddleware).forRoutes('*');
+  }
+
   async onApplicationBootstrap() {
     await this.sr.seed();
   }
