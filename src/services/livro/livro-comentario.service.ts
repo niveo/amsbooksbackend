@@ -20,9 +20,7 @@ export class LivroComentarioService {
     const livro = await this.livroService.findOneOrFail(
       comentarioInput.livroId,
     );
-    const usuario = await this.usuarioService.findOneOrFail(
-      comentarioInput.usuarioId,
-    );
+    const usuario = await this.usuarioService.obterUsuarioUserId();
     const comentario = new LivroComentario();
     comentario.livro = livro;
     comentario.usuario = usuario;
@@ -35,9 +33,14 @@ export class LivroComentarioService {
   getComentariosLivro(livroId: number): Promise<any[]> {
     return this.repository
       .createQueryBuilder('livroComentario')
-      .select()
+      .select('livroComentario.id', 'id')
+      .addSelect('usuario.nome', 'nome')
+      .addSelect('usuario.id', 'usuarioId')
+      .addSelect('livroComentario.displayTime', 'displayTime')
+      .addSelect('livroComentario.rate', 'rate')
+      .addSelect('livroComentario.texto', 'texto')
       .where('livroComentario.livroId = :livroId', { livroId: livroId })
-      .innerJoinAndSelect('livroComentario.usuario', 'usuario')
+      .innerJoin('livroComentario.usuario', 'usuario')
       .limit(10)
       .orderBy('livroComentario.displayTime', 'DESC')
       .getRawMany();
