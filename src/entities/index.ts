@@ -5,3 +5,4 @@ export * from './idioma.entity';
 export * from './livro.entity';
 export * from './livro-capitulo.entity';
 export * from './usuario.entity';
+export * from './livro-comentario.entity';

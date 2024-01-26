@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, QueryRunner, TableForeignKey } from 'typeorm';
+import { EntityManager } from 'typeorm';
 import { CATEGORIAS, IDIOMAS, TAGS } from '../common';
 import {
   Autor,
@@ -10,8 +10,6 @@ import {
   NOME_TABELA_AUTOR,
   NOME_TABELA_CATEGORIA,
   NOME_TABELA_IDIOMA,
-  NOME_TABELA_LIVRO,
-  NOME_TABELA_LIVRO_CAPITULO,
   NOME_TABELA_TAG,
   NOME_TABELA_USUARIO,
   Tag,
@@ -19,7 +17,6 @@ import {
 } from '../entities';
 import { NivelLeitura } from 'src/enuns';
 import { In } from 'typeorm';
-import { v4 } from 'uuid';
 import { resolve } from 'node:path';
 import { load } from 'cheerio';
 import { readFileSync } from 'node:fs';
@@ -28,54 +25,12 @@ import { readFileSync } from 'node:fs';
 export class SeedingService {
   constructor(private readonly entityManager: EntityManager) {}
 
-  async seed(): Promise<void> {
+  async iniciar(): Promise<void> {
     await this.entityManager.transaction(async (tr) => {
       const existeLivros = await tr.countBy(Livro, {});
       if (existeLivros > 0) {
         return Promise.resolve();
       }
-
-      await this.criarFk(
-        tr.queryRunner,
-        NOME_TABELA_LIVRO,
-        NOME_TABELA_AUTOR,
-        ['id'],
-        ['autorId'],
-      );
-
-      await this.criarFk(
-        tr.queryRunner,
-
-        NOME_TABELA_AUTOR,
-        NOME_TABELA_USUARIO,
-        ['id'],
-        ['usuarioId'],
-      );
-
-      await this.criarFk(
-        tr.queryRunner,
-        NOME_TABELA_LIVRO_CAPITULO,
-        NOME_TABELA_LIVRO,
-        ['id'],
-        ['livroId'],
-      );
-
-      await this.criarFk(
-        tr.queryRunner,
-        'livros_has_tags',
-        NOME_TABELA_LIVRO,
-        ['id'],
-        ['livrosId'],
-      );
-
-      await this.criarFk(
-        tr.queryRunner,
-        'livros_has_tags',
-        NOME_TABELA_TAG,
-        ['id'],
-        ['tagsId'],
-        'RESTRICT',
-      );
 
       await this.upsert(
         tr,
@@ -273,29 +228,6 @@ export class SeedingService {
         skipUpdateIfNoValuesChanged: true, // If true, postgres will skip the update if no values would be changed (reduces writes)
         conflictPaths: paths,
       });
-    }
-  }
-
-  private async criarFk(
-    queryRunner: QueryRunner,
-    tabela: string,
-    tabelaReferencia: string,
-    camposReferencia: string[],
-    campos: string[],
-    onDelete: 'CASCADE' | 'RESTRICT' = 'CASCADE',
-  ) {
-    const tabelaExiste = await queryRunner.getTable(tabela);
-    if (tabelaExiste) {
-      await queryRunner.createForeignKey(
-        tabela,
-        new TableForeignKey({
-          name: 'FK_' + v4().replaceAll('-', ''),
-          referencedTableName: tabelaReferencia,
-          referencedColumnNames: camposReferencia,
-          columnNames: campos,
-          onDelete: onDelete,
-        }),
-      );
     }
   }
 }

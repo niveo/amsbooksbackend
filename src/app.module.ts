@@ -27,6 +27,7 @@ import {
   Idioma,
   Livro,
   LivroCapitulo,
+  LivroComentario,
   Tag,
   Usuario,
 } from './entities';
@@ -39,6 +40,7 @@ import { LivroService } from './services/livro/livro.service';
 import { AuthModule } from './authorization/auth.module';
 import { UsuarioMiddleware } from './middlewares/usuario.middleware';
 import { UsuarioService } from './services/usuario/usuario.service';
+import { ManutencaoBancoService } from './services/manutencao-banco.service';
 
 @Module({
   imports: [
@@ -85,6 +87,7 @@ import { UsuarioService } from './services/usuario/usuario.service';
             Autor,
             Livro,
             LivroCapitulo,
+            LivroComentario,
           ],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
@@ -102,6 +105,7 @@ import { UsuarioService } from './services/usuario/usuario.service';
       Autor,
       Livro,
       LivroCapitulo,
+      LivroComentario,
     ]),
     AuthModule,
   ],
@@ -112,6 +116,7 @@ import { UsuarioService } from './services/usuario/usuario.service';
     AutorService,
     CategoriaService,
     SeedingService,
+    ManutencaoBancoService,
     LivroService,
     UsuarioService,
     {
@@ -127,13 +132,17 @@ import { UsuarioService } from './services/usuario/usuario.service';
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {
-  constructor(private readonly sr: SeedingService) {}
+  constructor(
+    private readonly manutencaoBancoService: ManutencaoBancoService,
+    private readonly seedingService: SeedingService,
+  ) {}
 
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(UsuarioMiddleware).forRoutes('*');
   }
 
   async onApplicationBootstrap() {
-    await this.sr.seed();
+    await this.manutencaoBancoService.iniciar();
+    await this.seedingService.iniciar();
   }
 }

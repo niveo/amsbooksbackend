@@ -16,6 +16,7 @@ import { Categoria } from './categoria.entity';
 import { LivroCapitulo } from './livro-capitulo.entity';
 import { Tag } from './tag.entity';
 import { NivelLeitura } from './../enuns/nivel-leitura.enum';
+import { LivroComentario } from './livro-comentario.entity';
 
 export const NOME_TABELA_LIVRO = 'livros';
 
@@ -108,4 +109,11 @@ export class Livro extends BaseEntity {
     //onDelete: 'CASCADE' *não é implementado pelo typeorm,
   })
   capitulos?: LivroCapitulo[];
+
+  @OneToMany(() => LivroComentario, (metadata) => metadata.livro, {
+    cascade: true,
+    createForeignKeyConstraints: false,
+    //onDelete: 'CASCADE' *não é implementado pelo typeorm,
+  })
+  comentarios?: LivroComentario[];
 }
