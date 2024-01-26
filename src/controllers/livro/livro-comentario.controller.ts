@@ -26,6 +26,6 @@ export class LivroComentarioController {
   @Post()
   @HttpCode(HttpStatus.OK)
   create(@Body() livroComentarioInputDto: LivroComentarioInputDto) {
-    this.service.create(livroComentarioInputDto);
+    return this.service.create(livroComentarioInputDto);
   }
 }

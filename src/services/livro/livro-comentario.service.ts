@@ -27,10 +27,20 @@ export class LivroComentarioService {
     comentario.texto = comentarioInput.texto;
     comentario.rate = comentarioInput.rate;
     comentario.displayTime = new Date();
-    return this.repository.insert(comentario);
+    const registro = await this.repository.save(comentario);
+    return this.selecaoQueryDefault()
+      .where('livroComentario.id = :id', { id: registro.id })
+      .getRawOne();
   }
 
   getComentariosLivro(livroId: number): Promise<any[]> {
+    return this.selecaoQueryDefault()
+      .where('livroComentario.livroId = :livroId', { livroId: livroId })
+      .limit(10)
+      .getRawMany();
+  }
+
+  private selecaoQueryDefault() {
     return this.repository
       .createQueryBuilder('livroComentario')
       .select('livroComentario.id', 'id')
@@ -39,10 +49,7 @@ export class LivroComentarioService {
       .addSelect('livroComentario.displayTime', 'displayTime')
       .addSelect('livroComentario.rate', 'rate')
       .addSelect('livroComentario.texto', 'texto')
-      .where('livroComentario.livroId = :livroId', { livroId: livroId })
       .innerJoin('livroComentario.usuario', 'usuario')
-      .limit(10)
-      .orderBy('livroComentario.displayTime', 'DESC')
-      .getRawMany();
+      .orderBy('livroComentario.displayTime', 'DESC');
   }
 }
