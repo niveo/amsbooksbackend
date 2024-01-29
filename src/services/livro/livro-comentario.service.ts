@@ -48,7 +48,7 @@ export class LivroComentarioService {
       .createQueryBuilder('livroComentario')
       .select('livroComentario.id', 'id')
       .addSelect('usuario.nome', 'nome')
-      //.addSelect('usuario.id', 'usuarioId')
+      .addSelect('usuario.id', 'usuarioId')
       .addSelect('livroComentario.displayTime', 'displayTime')
       .addSelect('livroComentario.rate', 'rate')
       .addSelect('livroComentario.texto', 'texto');
