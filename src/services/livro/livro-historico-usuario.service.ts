@@ -9,10 +9,6 @@ export class LivroHistoricoUsuarioService {
     private readonly livroComentarioService: LivroComentarioService,
   ) {}
   async obterLivroHistoricoUsuario(livroId: number): Promise<any> {
-    const comentario =
-      await this.livroComentarioService.getComentarioIdLivroUsuario(livroId);
-    return {
-      comentarioId: comentario?.id || null,
-    };
+    return {};
   }
 }

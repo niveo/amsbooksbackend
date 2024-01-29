@@ -36,17 +36,4 @@ export class LivroComentarioController {
   delete(@Param('id', ParseIntPipe) id: number): Promise<any> {
     return this.service.delete(id);
   }
-
-  /**
-   * Obterm o id do comentario do usuario em um livro
-   * @param livroId
-   * @returns
-   */
-  @Get('/comentarioidusuario')
-  @HttpCode(HttpStatus.OK)
-  async getComentarioIdLivroUsuario(
-    @Query('livroId', ParseIntPipe) livroId: number,
-  ): Promise<number> {
-    return (await this.service.getComentarioIdLivroUsuario(livroId))?.id;
-  }
 }

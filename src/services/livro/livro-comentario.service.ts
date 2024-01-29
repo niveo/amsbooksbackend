@@ -29,50 +29,40 @@ export class LivroComentarioService {
     comentario.rate = comentarioInput.rate;
     comentario.displayTime = new Date();
     const registro = await this.repository.save(comentario);
-    return this.selecaoQueryDefault()
+    return (await this.selecaoQueryDefault())
       .where('livroComentario.id = :id', { id: registro.id })
       .getRawOne();
   }
 
-  getComentariosLivro(livroId: number): Promise<any[]> {
-    return this.selecaoQueryDefault()
+  async getComentariosLivro(livroId: number): Promise<any[]> {
+    return (await this.selecaoQueryDefault())
       .where('livroComentario.livroId = :livroId', { livroId: livroId })
       .limit(10)
       .getRawMany();
   }
 
-  private selecaoQueryDefault() {
-    return this.repository
+  private async selecaoQueryDefault() {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+
+    const qb = this.repository
       .createQueryBuilder('livroComentario')
       .select('livroComentario.id', 'id')
       .addSelect('usuario.nome', 'nome')
-      .addSelect('usuario.id', 'usuarioId')
+      //.addSelect('usuario.id', 'usuarioId')
       .addSelect('livroComentario.displayTime', 'displayTime')
       .addSelect('livroComentario.rate', 'rate')
-      .addSelect('livroComentario.texto', 'texto')
-      .innerJoin('livroComentario.usuario', 'usuario')
-      .orderBy('livroComentario.displayTime', 'DESC');
-  }
-
-  async getComentarioIdLivroUsuario(livroId: number) {
-    const usuario = await this.usuarioService.obterUsuarioUserId();
-    return this.repository.findOne({
-      select: {
-        id: true,
-      },
-      relations: {
-        livro: true,
-        usuario: true,
-      },
-      where: {
-        livro: {
-          id: livroId,
-        },
-        usuario: {
-          id: usuario.id,
-        },
-      },
-    });
+      .addSelect('livroComentario.texto', 'texto');
+    if (usuario) {
+      qb.addSelect(
+        'CASE usuario.id WHEN ' + usuario.id + ' THEN true ELSE false END ',
+        'usuarioComentou',
+      );
+    }
+    qb.innerJoin('livroComentario.usuario', 'usuario').orderBy(
+      'livroComentario.displayTime',
+      'DESC',
+    );
+    return qb;
   }
 
   async delete(id: number): Promise<number> {
