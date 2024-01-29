@@ -56,7 +56,7 @@ export class LivroComentarioService {
 
   async getIdComentarioLivroUsuario(livroId: number) {
     const usuario = await this.usuarioService.obterUsuarioUserId();
-    return this.repository.findOneOrFail({
+    return this.repository.findOne({
       select: {
         id: true,
       },
@@ -73,5 +73,13 @@ export class LivroComentarioService {
         },
       },
     });
+  }
+
+  async delete(id: number): Promise<number> {
+    return (
+      await this.repository.delete({
+        id: id,
+      })
+    ).affected;
   }
 }

@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -27,5 +29,24 @@ export class LivroComentarioController {
   @HttpCode(HttpStatus.OK)
   create(@Body() livroComentarioInputDto: LivroComentarioInputDto) {
     return this.service.create(livroComentarioInputDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  delete(@Param('id', ParseIntPipe) id: number): Promise<any> {
+    return this.service.delete(id);
+  }
+
+  /**
+   * Obterm o id do comentario do usuario em um livro
+   * @param livroId
+   * @returns
+   */
+  @Get('/comentarioidusuario')
+  @HttpCode(HttpStatus.OK)
+  async obterLivroHistoricoUsuario(
+    @Query('livroId', ParseIntPipe) livroId: number,
+  ): Promise<number> {
+    return (await this.service.getIdComentarioLivroUsuario(livroId))?.id;
   }
 }
