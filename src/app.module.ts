@@ -21,6 +21,7 @@ import {
   AutorService,
   SeedingService,
   LivroComentarioService,
+  LivroHistoricoUsuarioService,
 } from './services';
 import {
   Autor,
@@ -43,6 +44,7 @@ import { AuthModule } from './authorization/auth.module';
 import { UsuarioMiddleware } from './middlewares/usuario.middleware';
 import { UsuarioService } from './services/usuario/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
+import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
 
 @Module({
   imports: [
@@ -117,6 +119,7 @@ import { ManutencaoBancoService } from './services/manutencao-banco.service';
     CategoriaController,
     TagController,
     LivroComentarioController,
+    LivroHistoricoUsuarioController,
   ],
   providers: [
     {
@@ -133,6 +136,7 @@ import { ManutencaoBancoService } from './services/manutencao-banco.service';
     SeedingService,
     ManutencaoBancoService,
     LivroComentarioService,
+    LivroHistoricoUsuarioService,
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

@@ -6,3 +6,4 @@ export * from './seeding.service';
 export * from './usuario/usuario.service';
 export * from './livro/livro-comentario.service';
 export * from './livro/livro.service';
+export * from './livro/livro-historico-usuario.service';

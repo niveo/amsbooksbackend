@@ -10,6 +10,7 @@ export class LivroComentarioService {
   constructor(
     @Inject(forwardRef(() => LivroService))
     private readonly livroService: LivroService,
+
     private readonly usuarioService: UsuarioService,
 
     @InjectRepository(LivroComentario)
@@ -51,5 +52,26 @@ export class LivroComentarioService {
       .addSelect('livroComentario.texto', 'texto')
       .innerJoin('livroComentario.usuario', 'usuario')
       .orderBy('livroComentario.displayTime', 'DESC');
+  }
+
+  async getIdComentarioLivroUsuario(livroId: number) {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+    return this.repository.findOneOrFail({
+      select: {
+        id: true,
+      },
+      relations: {
+        livro: true,
+        usuario: true,
+      },
+      where: {
+        livro: {
+          id: livroId,
+        },
+        usuario: {
+          id: usuario.id,
+        },
+      },
+    });
   }
 }
