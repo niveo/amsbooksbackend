@@ -65,6 +65,27 @@ export class LivroComentarioService {
     return qb;
   }
 
+  async getComentarioIdLivroUsuario(livroId: number) {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+    return this.repository.findOne({
+      select: {
+        id: true,
+      },
+      relations: {
+        livro: true,
+        usuario: true,
+      },
+      where: {
+        livro: {
+          id: livroId,
+        },
+        usuario: {
+          id: usuario.id,
+        },
+      },
+    });
+  }
+
   async delete(id: number): Promise<number> {
     return (
       await this.repository.delete({
