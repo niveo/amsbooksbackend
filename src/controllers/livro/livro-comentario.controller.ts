@@ -44,9 +44,9 @@ export class LivroComentarioController {
    */
   @Get('/comentarioidusuario')
   @HttpCode(HttpStatus.OK)
-  async obterLivroHistoricoUsuario(
+  async getComentarioIdLivroUsuario(
     @Query('livroId', ParseIntPipe) livroId: number,
   ): Promise<number> {
-    return (await this.service.getIdComentarioLivroUsuario(livroId))?.id;
+    return (await this.service.getComentarioIdLivroUsuario(livroId))?.id;
   }
 }

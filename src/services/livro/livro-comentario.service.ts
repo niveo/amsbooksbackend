@@ -54,7 +54,7 @@ export class LivroComentarioService {
       .orderBy('livroComentario.displayTime', 'DESC');
   }
 
-  async getIdComentarioLivroUsuario(livroId: number) {
+  async getComentarioIdLivroUsuario(livroId: number) {
     const usuario = await this.usuarioService.obterUsuarioUserId();
     return this.repository.findOne({
       select: {

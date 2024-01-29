@@ -10,7 +10,7 @@ export class LivroHistoricoUsuarioService {
   ) {}
   async obterLivroHistoricoUsuario(livroId: number): Promise<any> {
     const comentario =
-      await this.livroComentarioService.getIdComentarioLivroUsuario(livroId);
+      await this.livroComentarioService.getComentarioIdLivroUsuario(livroId);
     return {
       comentarioId: comentario?.id || null,
     };
