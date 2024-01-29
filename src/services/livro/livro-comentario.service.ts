@@ -60,7 +60,7 @@ export class LivroComentarioService {
     }
     qb.innerJoin('livroComentario.usuario', 'usuario').orderBy(
       'livroComentario.displayTime',
-      'DESC',
+      'ASC',
     );
     return qb;
   }
