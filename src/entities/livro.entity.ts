@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Generated,
   Index,
   JoinColumn,
   JoinTable,
@@ -102,6 +103,10 @@ export class Livro extends BaseEntity {
 
   @Column('text')
   descritivo: string;
+
+  @Column('uuid')
+  @Generated('uuid')
+  identificador?: string;
 
   @OneToMany(() => LivroCapitulo, (metadata) => metadata.livro, {
     cascade: true,
