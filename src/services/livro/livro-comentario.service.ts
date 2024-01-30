@@ -42,27 +42,16 @@ export class LivroComentarioService {
   }
 
   private async selecaoQueryDefault() {
-    const usuario = await this.usuarioService.obterUsuarioUserId();
-
-    const qb = this.repository
+    return this.repository
       .createQueryBuilder('livroComentario')
       .select('livroComentario.id', 'id')
       .addSelect('usuario.nome', 'nome')
       .addSelect('usuario.id', 'usuarioId')
       .addSelect('livroComentario.displayTime', 'displayTime')
       .addSelect('livroComentario.rate', 'rate')
-      .addSelect('livroComentario.texto', 'texto');
-    if (usuario) {
-      qb.addSelect(
-        'CASE usuario.id WHEN ' + usuario.id + ' THEN true ELSE false END ',
-        'usuarioComentou',
-      );
-    }
-    qb.innerJoin('livroComentario.usuario', 'usuario').orderBy(
-      'livroComentario.displayTime',
-      'ASC',
-    );
-    return qb;
+      .addSelect('livroComentario.texto', 'texto')
+      .innerJoin('livroComentario.usuario', 'usuario')
+      .orderBy('livroComentario.displayTime', 'ASC');
   }
 
   async getComentarioIdLivroUsuario(livroId: number) {
