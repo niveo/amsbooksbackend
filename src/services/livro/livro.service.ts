@@ -17,7 +17,13 @@ export class LivroService {
   ): Promise<any> {
     const qb = this.repository.createQueryBuilder('livro');
 
-    qb.select(['livro.id', 'livro.titulo', 'livro.capaUrl', 'autor.nome']);
+    qb.select([
+      'livro.id',
+      'livro.titulo',
+      'livro.capaUrl',
+      'autor.nome',
+      'livro.identificador',
+    ]);
     qb.innerJoin('livro.autor', 'autor');
     qb.where('1 = 1');
 
@@ -74,6 +80,7 @@ export class LivroService {
 
       .select([
         'livros.id',
+        'livros.identificador',
         'livros.descritivo',
         'livros.titulo',
         'livros.capaUrl',
