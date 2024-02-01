@@ -60,11 +60,6 @@ export class Livro extends BaseEntity {
   @JoinColumn()
   idioma: Idioma;
 
-  @Column('text', {
-    nullable: true,
-  })
-  capaUrl?: string;
-
   @Column('boolean', {
     nullable: false,
     default: false,
