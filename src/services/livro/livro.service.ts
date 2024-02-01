@@ -20,7 +20,6 @@ export class LivroService {
     qb.select([
       'livro.id',
       'livro.titulo',
-      'livro.capaUrl',
       'autor.nome',
       'livro.identificador',
     ]);
@@ -61,7 +60,6 @@ export class LivroService {
       .createQueryBuilder('livro')
       .select('livro.id', 'id')
       .addSelect('livro.titulo', 'titulo')
-      .addSelect('livro.capaUrl', 'capaUrl')
       .addSelect('autor.nome', 'autor')
       .innerJoin('livro.autor', 'autor')
       .cache(true)
@@ -83,7 +81,6 @@ export class LivroService {
         'livros.identificador',
         'livros.descritivo',
         'livros.titulo',
-        'livros.capaUrl',
         'autor.nome',
         'categoria.id',
         'categoria.nome',
