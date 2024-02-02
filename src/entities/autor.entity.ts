@@ -27,12 +27,6 @@ export class Autor extends BaseEntity {
 
   @Column('boolean', {
     nullable: false,
-    default: false,
-  })
-  foto?: boolean;
-
-  @Column('boolean', {
-    nullable: false,
     default: true,
   })
   ativo?: boolean;
