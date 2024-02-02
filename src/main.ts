@@ -14,7 +14,7 @@ async function bootstrap() {
     origin e credentials é usado para pegar a sessao do usuario
   */
   app.enableCors({
-    origin: ['http://localhost:4200'],
+    origin: ['http://localhost:4200', 'https://amsbooksfrontend.onrender.com'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type', 'userid'],
