@@ -19,7 +19,10 @@ export class UsuarioMiddleware implements NestMiddleware {
   //Atualiza o usuário sempre que um novo token for gerado
   private async atualizarUsuarioToken(req: Request) {
     const dataToken = this.authService.getDataToken(req);
-    if (req.session['token'] !== dataToken.token) {
+    if (
+      req.session['token'] !== dataToken.token ||
+      !req.session['userRegistered']
+    ) {
       req.session['token'] = dataToken.token;
       if (dataToken.email_verified) {
         await this.usuarioService.replace({
@@ -27,7 +30,7 @@ export class UsuarioMiddleware implements NestMiddleware {
           email: dataToken.email,
           userId: dataToken.sub,
         });
-        //req.session['user'] = ret.identifiers[0]['id'];
+        req.session['userRegistered'] = true;
       }
     }
   }
