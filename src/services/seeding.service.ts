@@ -4,6 +4,7 @@ import { CATEGORIAS, IDIOMAS, TAGS } from '../common';
 import {
   Autor,
   Categoria,
+  ColecaoLivro,
   Idioma,
   Livro,
   LivroCapitulo,
@@ -178,6 +179,18 @@ export class SeedingService {
       ];
 
       await tr.save(Livro, [...livros]);
+
+      await tr.delete(ColecaoLivro, {});
+
+      const us1 = await tr.find(Usuario, {});
+      us1[0].colecoesLivros = [
+        {
+          descricao: 'A',
+          livros: livros,
+          usuario: us1[0],
+        },
+      ];
+      await tr.save(Usuario, us1);
     });
   }
 

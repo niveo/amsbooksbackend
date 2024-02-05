@@ -26,6 +26,7 @@ import {
 import {
   Autor,
   Categoria,
+  ColecaoLivro,
   Idioma,
   Livro,
   LivroCapitulo,
@@ -92,6 +93,7 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
             Livro,
             LivroCapitulo,
             LivroComentario,
+            ColecaoLivro,
           ],
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
@@ -110,6 +112,7 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
       Livro,
       LivroCapitulo,
       LivroComentario,
+      ColecaoLivro,
     ]),
     AuthModule,
   ],

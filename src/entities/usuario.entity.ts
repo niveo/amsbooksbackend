@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base-entity';
+import { ColecaoLivro } from './colecao-livro.entity';
 
 export const NOME_TABELA_USUARIO = 'usuarios';
 
@@ -28,4 +29,14 @@ export class Usuario extends BaseEntity {
     unique: true,
   })
   userId?: string;
+
+  @ManyToMany(() => ColecaoLivro, {
+    cascade: true,
+    createForeignKeyConstraints: false,
+    //onDelete: 'RESTRICT' *não é implementado pelo typeorm,
+  })
+  @JoinTable({
+    name: 'usuario_has_colecoes',
+  })
+  colecoesLivros?: ColecaoLivro[];
 }

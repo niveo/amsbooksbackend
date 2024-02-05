@@ -50,6 +50,34 @@ export class ManutencaoBancoService {
         'CASCADE',
       );
 
+      /* await this.criarFk(
+        tr.queryRunner,
+        NOME_TABELA_COLECAO_LIVROS,
+        NOME_TABELA_USUARIO,
+        ['id'],
+        ['usuarioId'],
+        'CASCADE',
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        NOME_TABELA_COLECAO_LIVRO_ITEM,
+        NOME_TABELA_COLECAO_LIVROS,
+        ['id'],
+        ['colecaoLivroId'],
+        'CASCADE',
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        NOME_TABELA_COLECAO_LIVRO_ITEM,
+        NOME_TABELA_LIVRO,
+
+        ['id'],
+        ['livroId'],
+        'RESTRICT',
+      );*/
+
       await this.criarFk(
         tr.queryRunner,
         NOME_TABELA_LIVRO_COMENTARIOS,
