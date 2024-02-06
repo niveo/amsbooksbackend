@@ -41,7 +41,10 @@ export class Usuario extends BaseEntity {
   })
   userId?: string;
 
-  @OneToOne(() => Autor, (user) => user.usuario, { cascade: true })
+  @OneToOne(() => Autor, (user) => user.usuario, {
+    cascade: true,
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn()
   autor?: Autor;
 

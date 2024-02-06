@@ -47,7 +47,7 @@ export class ManutencaoBancoService {
         NOME_TABELA_AUTOR,
         ['id'],
         ['autorId'],
-        'RESTRICT',
+        'SET NULL',
       );
 
       await this.criarFk(
@@ -159,7 +159,7 @@ export class ManutencaoBancoService {
     tabelaReferencia: string,
     camposReferencia: string[],
     campos: string[],
-    onDelete: 'CASCADE' | 'RESTRICT' = 'CASCADE',
+    onDelete: 'CASCADE' | 'RESTRICT' | 'SET NULL' = 'CASCADE',
   ) {
     const tabelaExiste = await queryRunner.getTable(tabela);
     if (tabelaExiste) {

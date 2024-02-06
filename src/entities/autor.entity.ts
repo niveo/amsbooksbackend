@@ -35,6 +35,8 @@ export class Autor extends BaseEntity {
   })
   livros?: Livro[];
 
-  @OneToOne(() => Usuario, (metadata) => metadata.autor)
+  @OneToOne(() => Usuario, (metadata) => metadata.autor, {
+    createForeignKeyConstraints: false,
+  })
   usuario?: Usuario;
 }
