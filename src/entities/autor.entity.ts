@@ -31,6 +31,9 @@ export class Autor extends BaseEntity {
   })
   ativo?: boolean;
 
+  @Column('text', { nullable: true })
+  url?: string;
+
   @Exclude()
   @Index()
   @OneToOne(() => Usuario, {

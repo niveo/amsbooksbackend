@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, QueryRunner, TableForeignKey } from 'typeorm';
+import {
+  EntityManager,
+  QueryRunner,
+  TableColumn,
+  TableForeignKey,
+} from 'typeorm';
 import {
   NOME_TABELA_AUTOR,
   NOME_TABELA_LIVRO,
@@ -103,7 +108,28 @@ export class ManutencaoBancoService {
         ['tagsId'],
         'RESTRICT',
       );
+
+      await this.createColumnTable(
+        tr.queryRunner,
+        NOME_TABELA_AUTOR,
+        new TableColumn({
+          type: 'text',
+          name: 'url',
+          isNullable: true,
+        }),
+      );
     });
+  }
+
+  private async createColumnTable(
+    queryRunner: QueryRunner,
+    table: string,
+    column: TableColumn,
+  ) {
+    const columns = (await queryRunner.getTable(table)).columns;
+    if (columns.findIndex((fi) => fi.name === column.name) === -1) {
+      await queryRunner.addColumn(table, column);
+    }
   }
 
   private async criarFk(

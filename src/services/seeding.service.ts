@@ -103,18 +103,21 @@ export class SeedingService {
         {
           nome: 'Antoinette Moses',
           usuario: usuario1,
+          url: 'https://www.cambridge.org/tj/cambridgeenglish/authors/antoinette-moses',
           descricao:
             'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
         },
         {
           nome: 'Lewis Carroll',
           usuario: usuario2,
+          url: 'https://pt.wikipedia.org/wiki/Lewis_Carroll',
           descricao:
             'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
         },
         {
           nome: 'H. G. Wells',
           usuario: usuario3,
+          url: 'https://pt.wikipedia.org/wiki/H._G._Wells',
           descricao:
             'Herbert George Wells, conhecido como H. G. Wells, foi um escritor britânico e membro da Sociedade Fabiana.',
         },
