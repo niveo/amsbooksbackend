@@ -35,6 +35,7 @@ import {
   Usuario,
 } from './entities';
 import {
+  AutorController,
   CategoriaController,
   LivroComentarioController,
   LivroController,
@@ -123,6 +124,7 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
     TagController,
     LivroComentarioController,
     LivroHistoricoUsuarioController,
+    AutorController
   ],
   providers: [
     {

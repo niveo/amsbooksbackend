@@ -99,7 +99,7 @@ export class Livro extends BaseEntity {
   @Column('text')
   descritivo: string;
 
-  @Column('uuid')
+  @Column('uuid', { unique: true, nullable: false })
   @Generated('uuid')
   identificador?: string;
 

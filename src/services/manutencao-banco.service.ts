@@ -135,11 +135,21 @@ export class ManutencaoBancoService {
   private async createColumnTable(
     queryRunner: QueryRunner,
     table: string,
-    column: TableColumn,
+    column: TableColumn | TableColumn[],
   ) {
     const columns = (await queryRunner.getTable(table)).columns;
-    if (columns.findIndex((fi) => fi.name === column.name) === -1) {
-      await queryRunner.addColumn(table, column);
+    if (Array.isArray(column)) {
+      Promise.all(
+        column.map(async (m) => {
+          if (columns.findIndex((fi) => fi.name === m.name) === -1) {
+            await queryRunner.addColumn(table, m);
+          }
+        }),
+      );
+    } else {
+      if (columns.findIndex((fi) => fi.name === column.name) === -1) {
+        await queryRunner.addColumn(table, column);
+      }
     }
   }
 
