@@ -24,8 +24,12 @@ export class AutorService {
     return usuario.autor;
   }
 
-  create(autorInputDto: AutorInputDto) {
-    return this.repository.save(autorInputDto);
+  async create(autorInputDto: AutorInputDto) {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+    return this.repository.save({
+      ...autorInputDto,
+      usuario: usuario,
+    });
   }
 
   async update(id: number, autorInputDto: AutorInputDto): Promise<number> {
