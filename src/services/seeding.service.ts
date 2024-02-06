@@ -78,6 +78,11 @@ export class SeedingService {
             email: 'teste2@gmail.com',
             userId: '2',
           },
+          {
+            nome: 'TESTE 3',
+            email: 'teste3@gmail.com',
+            userId: '3',
+          },
         ],
         ['userId'],
       );
@@ -88,6 +93,10 @@ export class SeedingService {
 
       const usuario2 = await tr.findOne(Usuario, {
         where: { email: 'teste2@gmail.com' },
+      });
+
+      const usuario3 = await tr.findOne(Usuario, {
+        where: { email: 'teste3@gmail.com' },
       });
 
       const AUTORES: Autor[] = [
@@ -103,6 +112,12 @@ export class SeedingService {
           descricao:
             'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
         },
+        {
+          nome: 'H. G. Wells',
+          usuario: usuario3,
+          descricao:
+            'Herbert George Wells, conhecido como H. G. Wells, foi um escritor britânico e membro da Sociedade Fabiana.',
+        },
       ];
 
       await this.upsert<Autor>(tr, NOME_TABELA_AUTOR, Autor, AUTORES, [
@@ -111,19 +126,10 @@ export class SeedingService {
 
       await tr.delete(Livro, {});
 
-      const capitulosAlice: LivroCapitulo[] = [];
-
-      for (let i = 0; i <= 9; i++) {
-        const cps = this.carregarCapitulosFile(
-          `/alice/index_split_00${i}.xhtml`,
-        );
-        capitulosAlice.push(...cps);
-      }
-
       const livros: Livro[] = [
         {
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
-          capitulos: this.carregarCapitulosFile('capitulos_jojo.html'),
+          capitulos: this.carregarCapitulosJson('jojo_capitulos.json'),
           descritivo:
             "The loss of loved ones is a hard blow for everyone. How can a child survive this? Jojo is 10 years old. Soldiers came to his village and killed everyone. The boy was playing in the field at that time. That is why he remained alive. Only the boy does not understand how to live now. The question in his mind is: 'Why wasn't I with them?'. One day Jojo meets Chris. Chris is a British journalist. Jojo leaves with Chris. During this journey, they observe a country that is suffering from terrible war. Much of what he sees helps the boy to know himself, understand his thoughts and choose his life path. This book is filled with thoughts about life, experience and bitterness. And it also has answers to many questions.",
           titulo: "Jojo's Story",
@@ -155,7 +161,7 @@ export class SeedingService {
 
         {
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
-          capitulos: capitulosAlice,
+          capitulos: this.carregarCapitulosJson('alice_capitulos.json'),
           descritivo:
             'The world-famous fairy tale was written by an English writer and mathematician in 1865. This book is one of the best examples of nonsense literature. In the fairy tale, the reader can see dozens of complicated philosophical, mathematical and linguistic jokes. In this story, we can find many interesting hidden meanings. The girl Alice spends her time on the river bank. She is bored. Suddenly she sees a strange white rabbit. The small animal has a big pocket watch in his paws and he is in a hurry. Alice follows the rabbit and falls into a hole. The curious girl finds herself in a phantasmagoric world inhabited by many anthropomorphic creatures. And this is only the beginning of her unusual, strange and surprising adventures.',
           titulo: 'Alice in Wonderland',
@@ -173,6 +179,46 @@ export class SeedingService {
               'children-literature',
               'fantasy',
               'filmed',
+            ]),
+          }),
+        },
+
+        {
+          idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
+          capitulos: [
+            {
+              capitulo: 1,
+              titulo: 'CHAPTER 1',
+              texto: readFileSync(
+                resolve(__dirname, '../../data/' + 'stolen_body_capitulos.txt'),
+              ).toString(),
+            },
+          ],
+          descritivo:
+            "Mr. Bessel has been involved in psychic research for many years. He was especially interested in the idea of manifesting an image and thoughts at a distance to others. In 1896, he carried out the first experiments with his companion Mr. Vincent. The researchers had to be miles apart to make the experiment accurate. Mr. Bessel had to hypnotize himself and mentally transmit his image to his companion, who at that time was trying to see the 'living ghost'. The first attempts were unsuccessful. But one night Mr. Bessel managed to make his spirit leave the body. One evil entity took advantage of this situation. It took possession of the body. Mr. Bessel finds himself in the company of disembodied souls.",
+          titulo: 'The Stolen Body',
+          categoria: await tr.findOne(Categoria, {
+            where: { nome: 'horror' },
+          }),
+          autor: await tr.findOne(Autor, {
+            where: { nome: 'H. G. Wells' },
+          }),
+          nivelLeitura: NivelLeitura.B1,
+          tags: await tr.findBy(Tag, {
+            nome: In([
+              'space',
+              'ghost',
+              'photograph',
+              'house',
+              'dream',
+              'office',
+              'missing',
+              'police',
+              'court',
+              'disappearance',
+              'work',
+              'madness',
+              'doctor',
             ]),
           }),
         },
@@ -194,7 +240,32 @@ export class SeedingService {
     });
   }
 
-  private carregarCapitulosFile(fileName: string) {
+  private carregarCapitulosJson(fileName: string): any {
+    return JSON.parse(
+      readFileSync(resolve(__dirname, '../../data/' + fileName)).toString(),
+    ).map((m) => {
+      const cap = new LivroCapitulo();
+      cap.texto = m.texto;
+      cap.capitulo = m.capitulo;
+      cap.titulo = m.titulo;
+      return cap;
+    });
+  }
+
+  /**
+   *
+   *  const capitulosAlice: LivroCapitulo[] = [];
+   *
+   *  for (let i = 0; i <= 9; i++) {
+   *     const cps = this.carregarCapitulosFile(
+   *       `/alice/index_split_00${i}.xhtml`,
+   *     );
+   *     capitulosAlice.push(...cps);
+   *   }
+   * @param fileName
+   * @returns
+   */
+  private carregarCapitulosFileHTML(fileName: string) {
     const capitulos: LivroCapitulo[] = [];
     const file = readFileSync(resolve(__dirname, '../../data/' + fileName));
     const la = load(file.toString());
@@ -204,6 +275,8 @@ export class SeedingService {
     let fim = false;
     la('p').each((index, element) => {
       const texto = la(element).text();
+      console.log(texto);
+
       if (texto.indexOf('CHAPTER') !== -1) {
         cp = 0;
         cpCap++;
