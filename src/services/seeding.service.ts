@@ -131,7 +131,7 @@ export class SeedingService {
 
       const livros: Livro[] = [
         {
-          identificador: '814d6d57-a52d-40fd-9778-72dfe6531049',
+          identificador: '26ad542f-d41d-4661-bc1a-afe5532f9c34',
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: this.carregarCapitulosJson('jojo_capitulos.json'),
           descritivo:
@@ -163,7 +163,7 @@ export class SeedingService {
           }),
         },
         {
-          identificador: '3e474309-7ff5-45ad-bb28-1e2bacd737c2',
+          identificador: '6b346137-aa0a-4dd5-a509-132ff5219636',
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: this.carregarCapitulosJson('alice_capitulos.json'),
           descritivo:
