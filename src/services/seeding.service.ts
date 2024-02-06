@@ -131,6 +131,7 @@ export class SeedingService {
 
       const livros: Livro[] = [
         {
+          identificador: '814d6d57-a52d-40fd-9778-72dfe6531049',
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: this.carregarCapitulosJson('jojo_capitulos.json'),
           descritivo:
@@ -161,8 +162,8 @@ export class SeedingService {
             ]),
           }),
         },
-
         {
+          identificador: '3e474309-7ff5-45ad-bb28-1e2bacd737c2',
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: this.carregarCapitulosJson('alice_capitulos.json'),
           descritivo:
@@ -185,8 +186,8 @@ export class SeedingService {
             ]),
           }),
         },
-
         {
+          identificador: 'd1b4f565-ce14-40a6-816a-b69419a3076d',
           idioma: await tr.findOne(Idioma, { where: { nome: 'English' } }),
           capitulos: [
             {
