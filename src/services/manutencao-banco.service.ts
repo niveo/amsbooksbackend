@@ -21,12 +21,33 @@ export class ManutencaoBancoService {
 
   async iniciar(): Promise<void> {
     await this.entityManager.transaction(async (tr) => {
-      await this.criarFk(
+      await this.createColumnTable(
         tr.queryRunner,
         NOME_TABELA_AUTOR,
+        new TableColumn({
+          type: 'text',
+          name: 'url',
+          isNullable: true,
+        }),
+      );
+
+      await this.createColumnTable(
+        tr.queryRunner,
         NOME_TABELA_USUARIO,
+        new TableColumn({
+          type: 'int',
+          name: 'autorId',
+          isNullable: true,
+        }),
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        NOME_TABELA_USUARIO,
+        NOME_TABELA_AUTOR,
         ['id'],
-        ['usuarioId'],
+        ['autorId'],
+        'RESTRICT',
       );
 
       await this.criarFk(
@@ -108,16 +129,6 @@ export class ManutencaoBancoService {
         ['tagsId'],
         'RESTRICT',
       );
-
-      await this.createColumnTable(
-        tr.queryRunner,
-        NOME_TABELA_AUTOR,
-        new TableColumn({
-          type: 'text',
-          name: 'url',
-          isNullable: true,
-        }),
-      );
     });
   }
 
@@ -146,7 +157,7 @@ export class ManutencaoBancoService {
       const nomeFk =
         'FK_' +
         v5(
-          `${tabela}_${tabelaReferencia}_${camposReferencia.join(',')}_${campos.join(',')}`,
+          `${tabela}_${tabelaReferencia}_${camposReferencia.join(',')}_${campos.join(',')}_${onDelete}`,
           MY_NAMESPACE,
         );
 

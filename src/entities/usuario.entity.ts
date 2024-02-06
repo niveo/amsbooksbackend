@@ -1,10 +1,21 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+  Unique,
+} from 'typeorm';
 import { BaseEntity } from './base-entity';
 import { ColecaoLivro } from './colecao-livro.entity';
+import { Autor } from './autor.entity';
 
 export const NOME_TABELA_USUARIO = 'usuarios';
 
+@Unique('UNQ_AUTOR_ID', ['autor'])
 @Entity({
   name: NOME_TABELA_USUARIO,
 })
@@ -29,6 +40,10 @@ export class Usuario extends BaseEntity {
     unique: true,
   })
   userId?: string;
+
+  @OneToOne(() => Autor, (user) => user.usuario)
+  @JoinColumn()
+  autor?: Autor;
 
   @ManyToMany(() => ColecaoLivro, {
     cascade: true,

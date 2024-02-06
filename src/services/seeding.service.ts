@@ -8,7 +8,6 @@ import {
   Idioma,
   Livro,
   LivroCapitulo,
-  NOME_TABELA_AUTOR,
   NOME_TABELA_CATEGORIA,
   NOME_TABELA_IDIOMA,
   NOME_TABELA_TAG,
@@ -63,6 +62,29 @@ export class SeedingService {
         ['nome'],
       );
 
+      const AUTORES: Autor[] = [
+        {
+          nome: 'Antoinette Moses',
+          url: 'https://www.cambridge.org/tj/cambridgeenglish/authors/antoinette-moses',
+          descricao:
+            'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
+        },
+        {
+          nome: 'Lewis Carroll',
+          url: 'https://pt.wikipedia.org/wiki/Lewis_Carroll',
+          descricao:
+            'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
+        },
+        {
+          nome: 'H. G. Wells',
+          url: 'https://pt.wikipedia.org/wiki/H._G._Wells',
+          descricao:
+            'Herbert George Wells, conhecido como H. G. Wells, foi um escritor britânico e membro da Sociedade Fabiana.',
+        },
+      ];
+
+      await tr.insert(Autor, AUTORES);
+
       await this.upsert<Usuario>(
         tr,
         NOME_TABELA_USUARIO,
@@ -72,60 +94,23 @@ export class SeedingService {
             nome: 'TESTE 1',
             email: 'teste1@gmail.com',
             userId: '1',
+            autor: AUTORES[0],
           },
           {
             nome: 'TESTE 2',
             email: 'teste2@gmail.com',
             userId: '2',
+            autor: AUTORES[1],
           },
           {
             nome: 'TESTE 3',
             email: 'teste3@gmail.com',
             userId: '3',
+            autor: AUTORES[2],
           },
         ],
         ['userId'],
       );
-
-      const usuario1 = await tr.findOne(Usuario, {
-        where: { email: 'teste1@gmail.com' },
-      });
-
-      const usuario2 = await tr.findOne(Usuario, {
-        where: { email: 'teste2@gmail.com' },
-      });
-
-      const usuario3 = await tr.findOne(Usuario, {
-        where: { email: 'teste3@gmail.com' },
-      });
-
-      const AUTORES: Autor[] = [
-        {
-          nome: 'Antoinette Moses',
-          usuario: usuario1,
-          url: 'https://www.cambridge.org/tj/cambridgeenglish/authors/antoinette-moses',
-          descricao:
-            'Antoinette Moses is a writer and playwright. Her plays have won several competitions and have been produced or received rehearsed readings in Norwich, Cambridge, Ipswich, London and Paris. Her books range from media studies and poetry to a guidebook to Athens, where she lived for four years.',
-        },
-        {
-          nome: 'Lewis Carroll',
-          usuario: usuario2,
-          url: 'https://pt.wikipedia.org/wiki/Lewis_Carroll',
-          descricao:
-            'Charles Lutwidge Dodgson, mais conhecido pelo seu pseudônimo Lewis Carroll, foi um romancista, contista, fabulista, poeta, desenhista, fotógrafo, matemático e reverendo anglicano britânico. Lecionou matemática no Christ College, em Oxford.',
-        },
-        {
-          nome: 'H. G. Wells',
-          usuario: usuario3,
-          url: 'https://pt.wikipedia.org/wiki/H._G._Wells',
-          descricao:
-            'Herbert George Wells, conhecido como H. G. Wells, foi um escritor britânico e membro da Sociedade Fabiana.',
-        },
-      ];
-
-      await this.upsert<Autor>(tr, NOME_TABELA_AUTOR, Autor, AUTORES, [
-        'usuario',
-      ]);
 
       await tr.delete(Livro, {});
 

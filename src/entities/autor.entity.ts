@@ -1,20 +1,10 @@
-import { Exclude } from 'class-transformer';
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  Unique,
-} from 'typeorm';
+import { Column, Entity, Index, OneToMany, OneToOne } from 'typeorm';
 import { Livro } from './livro.entity';
 import { BaseEntity } from './base-entity';
 import { Usuario } from './usuario.entity';
 
 export const NOME_TABELA_AUTOR = 'autores';
 
-@Unique('UNQ_USUARIO_ID', ['usuario'])
 @Entity({
   name: NOME_TABELA_AUTOR,
 })
@@ -34,15 +24,6 @@ export class Autor extends BaseEntity {
   @Column('text', { nullable: true })
   url?: string;
 
-  @Exclude()
-  @Index()
-  @OneToOne(() => Usuario, {
-    nullable: false,
-    createForeignKeyConstraints: false,
-  })
-  @JoinColumn()
-  usuario?: Usuario;
-
   @Column('text', {
     nullable: true,
   })
@@ -53,4 +34,7 @@ export class Autor extends BaseEntity {
     createForeignKeyConstraints: false,
   })
   livros?: Livro[];
+
+  @OneToOne(() => Usuario, (metadata) => metadata.autor)
+  usuario?: Usuario;
 }
