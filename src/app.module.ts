@@ -98,7 +98,7 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
           ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          logging: false,
+          logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
         };
       },
       inject: [ConfigService],
