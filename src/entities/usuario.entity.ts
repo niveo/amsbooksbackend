@@ -41,7 +41,7 @@ export class Usuario extends BaseEntity {
   })
   userId?: string;
 
-  @OneToOne(() => Autor, (user) => user.usuario)
+  @OneToOne(() => Autor, (user) => user.usuario, { cascade: true })
   @JoinColumn()
   autor?: Autor;
 

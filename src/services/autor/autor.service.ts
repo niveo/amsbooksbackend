@@ -26,6 +26,8 @@ export class AutorService {
 
   async create(autorInputDto: AutorInputDto) {
     const usuario = await this.usuarioService.obterUsuarioUserId();
+    console.log(usuario);
+
     return this.repository.save({
       ...autorInputDto,
       usuario: usuario,

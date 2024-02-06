@@ -8,10 +8,8 @@ import {
 import { Request } from 'express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ClsModule, ClsModuleFactoryOptions } from 'nestjs-cls';
-import { converterConfig } from './common/utils';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
 import {
@@ -23,17 +21,7 @@ import {
   LivroComentarioService,
   LivroHistoricoUsuarioService,
 } from './services';
-import {
-  Autor,
-  Categoria,
-  ColecaoLivro,
-  Idioma,
-  Livro,
-  LivroCapitulo,
-  LivroComentario,
-  Tag,
-  Usuario,
-} from './entities';
+
 import {
   AutorController,
   CategoriaController,
@@ -47,6 +35,7 @@ import { UsuarioMiddleware } from './middlewares/usuario.middleware';
 import { UsuarioService } from './services/usuario/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
 import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
+import { DataBaseModule } from './db/migrations/bd.module';
 
 @Module({
   imports: [
@@ -64,58 +53,19 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
               try {
                 const data = authService.getDataToken(req);
                 cls.set('userId', data.sub);
-              } catch (e) {}
+              } catch (e) {
+                console.error(e);
+              }
             },
           },
         };
         return ca;
       },
+      imports: [AuthModule],
+      inject: [AuthService],
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          extra: { max: 10 },
-          migrations: [],
-          migrate: true,
-          migrationsRun: true,
-          type: 'postgres',
-          host: process.env.PGHOST,
-          port: 5432,
-          username: process.env.PGUSER,
-          url: process.env.DATABASE_URL,
-          password: process.env.PGPASSWORD,
-          database: process.env.PGDATABASE,
-          entities: [
-            Usuario,
-            Idioma,
-            Categoria,
-            Tag,
-            Autor,
-            Livro,
-            LivroCapitulo,
-            LivroComentario,
-            ColecaoLivro,
-          ],
-          //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-          synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
-        };
-      },
-      inject: [ConfigService],
-    }),
-    TypeOrmModule.forFeature([
-      Usuario,
-      Idioma,
-      Categoria,
-      Tag,
-      Autor,
-      Livro,
-      LivroCapitulo,
-      LivroComentario,
-      ColecaoLivro,
-    ]),
     AuthModule,
+    DataBaseModule,
   ],
   controllers: [
     AppController,
@@ -124,13 +74,14 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
     TagController,
     LivroComentarioController,
     LivroHistoricoUsuarioController,
-    AutorController
+    AutorController,
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
     },
+    AuthService,
     UsuarioService,
     LivroService,
     AppService,

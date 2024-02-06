@@ -21,6 +21,7 @@ export class UsuarioService {
   }
 
   obterUsuarioUserId() {
+    if (!this.cls.get('userId')) throw 'Usuário não registrado no Cls';
     return this.repository.findOneOrFail({
       where: {
         userId: this.cls.get('userId'),
