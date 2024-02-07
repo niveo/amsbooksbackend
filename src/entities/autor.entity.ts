@@ -10,21 +10,21 @@ export const NOME_TABELA_AUTOR = 'autores';
 })
 export class Autor extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   nome: string;
 
-  @Column('boolean', {
+  @Column({
     nullable: false,
     default: true,
   })
   ativo?: boolean;
 
-  @Column('text', { nullable: true })
+  @Column({ nullable: true })
   url?: string;
 
-  @Column('text', {
+  @Column({
     nullable: true,
   })
   descricao?: string;

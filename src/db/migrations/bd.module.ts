@@ -15,6 +15,18 @@ import {
 import { converterConfig } from 'src/common/utils';
 import { ConfigService } from '@nestjs/config';
 
+const ENTITIES = [
+  Usuario,
+  Idioma,
+  Categoria,
+  Tag,
+  Autor,
+  Livro,
+  LivroCapitulo,
+  LivroComentario,
+  ColecaoLivro,
+];
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -31,17 +43,7 @@ import { ConfigService } from '@nestjs/config';
           url: process.env.DATABASE_URL,
           password: process.env.PGPASSWORD,
           database: process.env.PGDATABASE,
-          entities: [
-            Usuario,
-            Idioma,
-            Categoria,
-            Tag,
-            Autor,
-            Livro,
-            LivroCapitulo,
-            LivroComentario,
-            ColecaoLivro,
-          ],
+          entities: ENTITIES,
           //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
           synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
           ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
@@ -50,17 +52,7 @@ import { ConfigService } from '@nestjs/config';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([
-      Usuario,
-      Idioma,
-      Categoria,
-      Tag,
-      Autor,
-      Livro,
-      LivroCapitulo,
-      LivroComentario,
-      ColecaoLivro,
-    ]),
+    TypeOrmModule.forFeature(ENTITIES),
   ],
   providers: [],
   exports: [TypeOrmModule],

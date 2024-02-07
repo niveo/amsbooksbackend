@@ -16,7 +16,7 @@ export const NOME_TABELA_COLECAO_LIVROS = 'colecoes_livros';
 @Entity({ name: NOME_TABELA_COLECAO_LIVROS })
 export class ColecaoLivro extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
     unique: true,
   })

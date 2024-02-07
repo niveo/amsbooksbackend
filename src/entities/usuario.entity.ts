@@ -21,13 +21,13 @@ export const NOME_TABELA_USUARIO = 'usuarios';
 })
 export class Usuario extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   nome: string;
 
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
     unique: true,
   })
@@ -35,7 +35,7 @@ export class Usuario extends BaseEntity {
 
   @Exclude()
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
     unique: true,
   })

@@ -7,9 +7,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn('increment', {
-    type: 'int',
-  })
+  @PrimaryGeneratedColumn('increment')
   id?: number;
 
   @Exclude()
