@@ -4,16 +4,13 @@ import { CATEGORIAS, IDIOMAS, TAGS } from '../common';
 import {
   Autor,
   Categoria,
-  ColecaoLivro,
   Idioma,
   Livro,
   LivroCapitulo,
   NOME_TABELA_CATEGORIA,
   NOME_TABELA_IDIOMA,
   NOME_TABELA_TAG,
-  NOME_TABELA_USUARIO,
   Tag,
-  Usuario,
 } from '../entities';
 import { NivelLeitura } from 'src/enuns';
 import { In } from 'typeorm';
@@ -84,33 +81,6 @@ export class SeedingService {
       ];
 
       await tr.insert(Autor, AUTORES);
-
-      await this.upsert<Usuario>(
-        tr,
-        NOME_TABELA_USUARIO,
-        Usuario,
-        [
-          {
-            nome: 'TESTE 1',
-            email: 'teste1@gmail.com',
-            userId: '1',
-            autor: AUTORES[0],
-          },
-          {
-            nome: 'TESTE 2',
-            email: 'teste2@gmail.com',
-            userId: '2',
-            autor: AUTORES[1],
-          },
-          {
-            nome: 'TESTE 3',
-            email: 'teste3@gmail.com',
-            userId: '3',
-            autor: AUTORES[2],
-          },
-        ],
-        ['userId'],
-      );
 
       await tr.delete(Livro, {});
 
@@ -214,18 +184,6 @@ export class SeedingService {
       ];
 
       await tr.save(Livro, [...livros]);
-
-      await tr.delete(ColecaoLivro, {});
-
-      const us1 = await tr.find(Usuario, {});
-      us1[0].colecoesLivros = [
-        {
-          descricao: 'A',
-          livros: livros,
-          usuario: us1[0],
-        },
-      ];
-      await tr.save(Usuario, us1);
     });
   }
 
