@@ -3,9 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Autor } from '../../entities';
 import { Repository } from 'typeorm';
 import { UsuarioService } from '../usuario/usuario.service';
-import { AutorInputDto } from 'src/models/dtos';
+import { AutorInputDto } from '../../models/dtos';
+import { IDataBaseService } from '../../interfaces';
+
 @Injectable()
-export class AutorService {
+export class AutorService implements IDataBaseService {
   constructor(
     @InjectRepository(Autor)
     private repository: Repository<Autor>,
@@ -25,6 +27,10 @@ export class AutorService {
   }
 
   async create(autorInputDto: AutorInputDto) {
+    return this.repository.save(autorInputDto);
+  }
+
+  async createWithUser(autorInputDto: AutorInputDto) {
     const usuario = await this.usuarioService.obterUsuarioUserId();
     return this.repository.save({
       ...autorInputDto,

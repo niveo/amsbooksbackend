@@ -11,11 +11,11 @@ import {
   LivroComentario,
   Tag,
   Usuario,
-} from '../../entities';
-import { converterConfig } from 'src/common/utils';
+} from '../entities';
+import { converterConfig } from '../common/utils';
 import { ConfigService } from '@nestjs/config';
 
-const ENTITIES = [
+export const ENTITIES = [
   Usuario,
   Idioma,
   Categoria,

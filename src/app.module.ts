@@ -5,11 +5,8 @@ import {
   NestModule,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { ClsModule, ClsModuleFactoryOptions } from 'nestjs-cls';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
 import {
@@ -35,38 +32,10 @@ import { UsuarioMiddleware } from './middlewares/usuario.middleware';
 import { UsuarioService } from './services/usuario/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
 import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
-import { DataBaseModule } from './db/migrations/bd.module';
+import { DataBaseModule, CoreModule } from './modules';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    ClsModule.forRootAsync({
-      useFactory(authService: AuthService) {
-        const ca: ClsModuleFactoryOptions = {
-          middleware: {
-            // automatically mount the
-            // ClsMiddleware for all routes
-            mount: true,
-            setup: (cls, req: Request) => {
-              try {
-                const data = authService.getDataToken(req);
-                cls.set('userId', data.sub);
-              } catch (e) {
-                console.error(e);
-              }
-            },
-          },
-        };
-        return ca;
-      },
-      imports: [AuthModule],
-      inject: [AuthService],
-    }),
-    AuthModule,
-    DataBaseModule,
-  ],
+  imports: [CoreModule, AuthModule, DataBaseModule],
   controllers: [
     AppController,
     LivroController,

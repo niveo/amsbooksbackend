@@ -30,6 +30,12 @@ export class AutorController {
     return this.service.create(autorInputDto);
   }
 
+  @Post('/createWithUser')
+  @HttpCode(HttpStatus.OK)
+  createWithUser(@Body() autorInputDto: AutorInputDto) {
+    return this.service.createWithUser(autorInputDto);
+  }
+
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

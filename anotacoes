@@ -1,0 +1,2 @@
+TESTE JEST INDIVIDUAL
+node 'node_modules/.bin/jest' '/home/ams/git/amsbooks/amsbooksbackend/src/services/autor/autor.service.spec.ts' -t 'AutorService' --runInBand --detectOpenHandles

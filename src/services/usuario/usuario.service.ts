@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from '../../entities';
 import { Repository } from 'typeorm';
 import { ClsService } from 'nestjs-cls';
+import { IDataBaseService } from '../../interfaces';
 
 @Injectable()
-export class UsuarioService {
+export class UsuarioService implements IDataBaseService {
   constructor(
     @InjectRepository(Usuario)
     private readonly repository: Repository<Usuario>,
@@ -29,8 +30,12 @@ export class UsuarioService {
     });
   }
 
-  salvar(autor: Usuario) {
-    return this.repository.save(autor);
+  create(value: Usuario) {
+    return this.repository.save(value);
+  }
+
+  async update(id: number, value: Usuario) {
+    return (await this.repository.update(id, value)).affected;
   }
 
   replace(autor: Usuario) {
