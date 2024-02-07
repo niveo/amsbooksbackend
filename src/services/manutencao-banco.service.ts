@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import {
   NOME_TABELA_AUTOR,
+  NOME_TABELA_COLECAO_LIVROS,
   NOME_TABELA_LIVRO,
   NOME_TABELA_LIVRO_CAPITULO,
   NOME_TABELA_LIVRO_COMENTARIOS,
@@ -76,33 +77,23 @@ export class ManutencaoBancoService {
         'CASCADE',
       );
 
-      /* await this.criarFk(
+      await this.criarFk(
         tr.queryRunner,
-        NOME_TABELA_COLECAO_LIVROS,
+        'usuario_has_colecoes',
         NOME_TABELA_USUARIO,
         ['id'],
-        ['usuarioId'],
+        ['usuariosId'],
         'CASCADE',
       );
 
       await this.criarFk(
         tr.queryRunner,
-        NOME_TABELA_COLECAO_LIVRO_ITEM,
+        'colecoes_has_livros',
         NOME_TABELA_COLECAO_LIVROS,
         ['id'],
-        ['colecaoLivroId'],
+        ['colecoesLivrosId'],
         'CASCADE',
       );
-
-      await this.criarFk(
-        tr.queryRunner,
-        NOME_TABELA_COLECAO_LIVRO_ITEM,
-        NOME_TABELA_LIVRO,
-
-        ['id'],
-        ['livroId'],
-        'RESTRICT',
-      );*/
 
       await this.criarFk(
         tr.queryRunner,
