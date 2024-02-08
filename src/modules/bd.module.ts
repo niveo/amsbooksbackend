@@ -46,9 +46,9 @@ export const ENTITIES = [
             database: process.env.PGDATABASE,
             entities: ENTITIES,
             //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-            synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
-            ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
-            logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
+            synchronize: false,
+            ssl: true,
+            logging: false,
           };
         } else {
           return {
@@ -57,7 +57,7 @@ export const ENTITIES = [
             dropSchema: true,
             synchronize: true,
             entities: ENTITIES,
-            logging: true,
+            logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
           };
         }
       },
