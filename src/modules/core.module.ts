@@ -20,7 +20,9 @@ import { AuthModule } from '../authorization/auth.module';
             setup: (cls, req: Request) => {
               try {
                 const data = authService.getDataToken(req);
-                cls.set('userId', data.sub);
+                if (data) {
+                  cls.set('userId', data.sub);
+                }
               } catch (e) {
                 console.error(e);
               }

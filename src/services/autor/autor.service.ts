@@ -23,7 +23,11 @@ export class AutorService implements IDataBaseService {
 
   async obterAutorUsuario() {
     const usuario = await this.usuarioService.obterUsuarioUserId();
-    return usuario.autor;
+    return this.repository
+      .createQueryBuilder('autor')
+      .innerJoin('autor.usuario', 'usuario')
+      .where('usuario.id = :id', { id: usuario.id })
+      .getOneOrFail();
   }
 
   async create(autorInputDto: AutorInputDto) {

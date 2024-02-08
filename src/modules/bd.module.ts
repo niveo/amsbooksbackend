@@ -54,7 +54,7 @@ export const ENTITIES = [
           return {
             type: 'sqlite',
             database: './db/file.db',
-            dropSchema: true,
+            //dropSchema: true,
             synchronize: true,
             entities: ENTITIES,
             logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),

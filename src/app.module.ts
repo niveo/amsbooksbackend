@@ -1,4 +1,3 @@
-import { AuthService } from './authorization/auth.service';
 import {
   MiddlewareConsumer,
   Module,
@@ -50,7 +49,6 @@ import { DataBaseModule, CoreModule } from './modules';
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
     },
-    AuthService,
     UsuarioService,
     LivroService,
     AppService,
