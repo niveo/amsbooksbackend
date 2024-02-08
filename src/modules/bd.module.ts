@@ -31,24 +31,35 @@ export const ENTITIES = [
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => {
-        return {
-          extra: { max: 10 },
-          migrations: [],
-          migrate: true,
-          migrationsRun: true,
-          type: 'postgres',
-          host: process.env.PGHOST,
-          port: 5432,
-          username: process.env.PGUSER,
-          url: process.env.DATABASE_URL,
-          password: process.env.PGPASSWORD,
-          database: process.env.PGDATABASE,
-          entities: ENTITIES,
-          //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-          synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
-        };
+        if (converterConfig(process.env.ENV_PRODUCTION, Boolean)) {
+          return {
+            extra: { max: 10 },
+            migrations: [],
+            migrate: true,
+            migrationsRun: true,
+            type: 'postgres',
+            host: process.env.PGHOST,
+            port: 5432,
+            username: process.env.PGUSER,
+            url: process.env.DATABASE_URL,
+            password: process.env.PGPASSWORD,
+            database: process.env.PGDATABASE,
+            entities: ENTITIES,
+            //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
+            synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
+            ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
+            logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
+          };
+        } else {
+          return {
+            type: 'sqlite',
+            database: './db/file.db',
+            dropSchema: true,
+            synchronize: true,
+            entities: ENTITIES,
+            logging: true,
+          };
+        }
       },
       inject: [ConfigService],
     }),

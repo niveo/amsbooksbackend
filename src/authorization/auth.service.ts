@@ -18,13 +18,11 @@ export class AuthService {
     email_verified: boolean;
     token: string;
   } {
-    if (!request.headers['authorization']) {
-      throw Error(
-        'Token não informado no authorization data requisição ' + request.url,
-      );
-    }
-    const token = request.headers['authorization'].replace('Bearer ', '');
-    const { sub, name, email, email_verified } = this.jwtService.decode(token);
-    return { sub, name, email, email_verified, token };
+    if (request.headers['authorization']) {
+      const token = request.headers['authorization'].replace('Bearer ', '');
+      const { sub, name, email, email_verified } =
+        this.jwtService.decode(token);
+      return { sub, name, email, email_verified, token };
+    } else return null;
   }
 }
