@@ -9,7 +9,7 @@ import {
 import { LivroHistoricoUsuarioService } from 'src/services';
 
 @Controller({
-  path: 'livro-historico-usuario',
+  path: 'livro_historico_usuario',
 })
 export class LivroHistoricoUsuarioController {
   constructor(

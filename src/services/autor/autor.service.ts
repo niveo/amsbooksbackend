@@ -7,7 +7,7 @@ import { AutorInputDto } from '../../models/dtos';
 import { IDataBaseService } from '../../interfaces';
 
 @Injectable()
-export class AutorService implements IDataBaseService {
+export class AutorService implements IDataBaseService<Autor> {
   constructor(
     @InjectRepository(Autor)
     private repository: Repository<Autor>,

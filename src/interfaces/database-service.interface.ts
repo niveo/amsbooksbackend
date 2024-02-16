@@ -1,4 +1,4 @@
-export interface IDataBaseService {
-  create(value: any): Promise<any>;
-  update(id: number, value: any): Promise<number>;
+export interface IDataBaseService<T> {
+  create(value: T): Promise<any>;
+  update(id: number, value: T): Promise<number>;
 }

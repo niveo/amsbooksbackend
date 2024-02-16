@@ -18,7 +18,6 @@ export class ColecaoLivro extends BaseEntity {
   @Index()
   @Column({
     nullable: false,
-    unique: true,
   })
   descricao: string;
 

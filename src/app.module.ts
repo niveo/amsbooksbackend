@@ -32,6 +32,8 @@ import { UsuarioService } from './services/usuario/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
 import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
 import { DataBaseModule, CoreModule } from './modules';
+import { ColecaoLivroController } from './controllers/colecao/colecao-livro.controller';
+import { ColecaoLivroService } from './services/colecao/colecao-livro.service';
 
 @Module({
   imports: [CoreModule, AuthModule, DataBaseModule],
@@ -43,6 +45,7 @@ import { DataBaseModule, CoreModule } from './modules';
     LivroComentarioController,
     LivroHistoricoUsuarioController,
     AutorController,
+    ColecaoLivroController,
   ],
   providers: [
     {
@@ -60,6 +63,7 @@ import { DataBaseModule, CoreModule } from './modules';
     ManutencaoBancoService,
     LivroComentarioService,
     LivroHistoricoUsuarioService,
+    ColecaoLivroService
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

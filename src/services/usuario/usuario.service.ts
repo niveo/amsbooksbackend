@@ -6,7 +6,7 @@ import { ClsService } from 'nestjs-cls';
 import { IDataBaseService } from '../../interfaces';
 
 @Injectable()
-export class UsuarioService implements IDataBaseService {
+export class UsuarioService implements IDataBaseService<Usuario> {
   constructor(
     @InjectRepository(Usuario)
     private readonly repository: Repository<Usuario>,
@@ -27,6 +27,7 @@ export class UsuarioService implements IDataBaseService {
       where: {
         userId: this.cls.get('userId'),
       },
+      cache: true,
     });
   }
 

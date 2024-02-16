@@ -6,7 +6,7 @@ import { Response } from 'express';
  * Custom exception filter to convert EntityNotFoundError from TypeOrm to NestJs responses
  * @see also @https://docs.nestjs.com/exception-filters
  */
-@Catch(EntityNotFoundError, Error)
+@Catch(EntityNotFoundError/*, Error*/)
 export class EntityNotFoundExceptionFilter implements ExceptionFilter {
   public catch(exception: EntityNotFoundError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
