@@ -48,7 +48,7 @@ export class Usuario extends BaseEntity {
   @JoinColumn()
   autor?: Autor;
 
-  @ManyToMany(() => ColecaoLivro, {
+  /*@ManyToMany(() => ColecaoLivro, {
     cascade: true,
     createForeignKeyConstraints: false,
     //onDelete: 'RESTRICT' *não é implementado pelo typeorm,
@@ -56,5 +56,5 @@ export class Usuario extends BaseEntity {
   @JoinTable({
     name: 'usuario_has_colecoes',
   })
-  colecoesLivros?: ColecaoLivro[];
+  colecoesLivros?: ColecaoLivro[];*/
 }

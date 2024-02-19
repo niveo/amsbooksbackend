@@ -18,6 +18,16 @@ export class AuthService {
     email_verified: boolean;
     token: string;
   } {
+    console.log(
+      request.method +
+        ' ' +
+        request.baseUrl +
+        request.url +
+        ' Autorizado: ' +
+        request.headers['authorization'] ===
+        undefined,
+    );
+
     if (request.headers['authorization']) {
       const token = request.headers['authorization'].replace('Bearer ', '');
       const { sub, name, email, email_verified } =

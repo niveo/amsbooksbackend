@@ -34,6 +34,8 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
 import { DataBaseModule, CoreModule } from './modules';
 import { ColecaoLivroController } from './controllers/colecao/colecao-livro.controller';
 import { ColecaoLivroService } from './services/colecao/colecao-livro.service';
+import { ColecaoLivroVinculoService } from './services/colecao/colecao-livro-vinculo.service';
+import { ColecaoLivroVinculoController } from './controllers/colecao/colecao-livro-vinculo.controller';
 
 @Module({
   imports: [CoreModule, AuthModule, DataBaseModule],
@@ -46,6 +48,7 @@ import { ColecaoLivroService } from './services/colecao/colecao-livro.service';
     LivroHistoricoUsuarioController,
     AutorController,
     ColecaoLivroController,
+    ColecaoLivroVinculoController,
   ],
   providers: [
     {
@@ -63,7 +66,8 @@ import { ColecaoLivroService } from './services/colecao/colecao-livro.service';
     ManutencaoBancoService,
     LivroComentarioService,
     LivroHistoricoUsuarioService,
-    ColecaoLivroService
+    ColecaoLivroService,
+    ColecaoLivroVinculoService,
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

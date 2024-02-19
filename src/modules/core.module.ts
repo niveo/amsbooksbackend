@@ -22,6 +22,10 @@ import { AuthModule } from '../authorization/auth.module';
                 const data = authService.getDataToken(req);
                 if (data) {
                   cls.set('userId', data.sub);
+                } else {
+                  console.warn(
+                    'Nenhum token informado para registrar o usuário',
+                  );
                 }
               } catch (e) {
                 console.error(e);
