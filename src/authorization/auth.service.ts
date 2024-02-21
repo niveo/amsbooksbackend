@@ -24,8 +24,7 @@ export class AuthService {
         request.baseUrl +
         request.url +
         ' Autorizado: ' +
-        request.headers['authorization'] ===
-        undefined,
+        String(!(request.headers['authorization'] === undefined)),
     );
 
     if (request.headers['authorization']) {
