@@ -46,7 +46,7 @@ export class LivroPerfilUsuarioService {
     ).identifiers;
   }
 
-  async obterLivrosIdSituacao(situacaoLeitura: number) {
+  async obterLivrosIds(situacaoLeitura: number) {
     const usuario = await this.usuarioService.obterUsuarioUserId();
     return this.repository
       .createQueryBuilder('livroPerfilUsuario')

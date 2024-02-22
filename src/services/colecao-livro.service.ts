@@ -42,4 +42,16 @@ export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
   async delete(id: number): Promise<any> {
     return (await this.repository.delete(id)).affected;
   }
+
+  async obterLivrosIds(colecaoId: number) {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+    return this.repository
+      .createQueryBuilder('colecaoLivros')
+      .select('livros.id', 'id')
+      .innerJoin('colecaoLivros.livros', 'livros')
+      .innerJoin('colecaoLivros.usuario', 'usuario')
+      .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
+      .andWhere('colecaoLivros.id = :colecaoId', { colecaoId: colecaoId })
+      .getRawMany();
+  }
 }

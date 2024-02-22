@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ColecaoLivro } from '../entities';
 import { DataSource } from 'typeorm';
 import { UsuarioService } from './usuario.service';
 import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vinculo-input.dto';
@@ -8,8 +6,8 @@ import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vincu
 @Injectable()
 export class ColecaoLivroVinculoService {
   constructor(
-    @InjectRepository(ColecaoLivro)
     private readonly repository: DataSource,
+
     private readonly usuarioService: UsuarioService,
   ) {}
 

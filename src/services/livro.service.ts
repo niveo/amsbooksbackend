@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Livro } from '../entities';
 import { Repository } from 'typeorm';
 import { LivroPerfilUsuarioService } from './livro-perfil-usuario.service';
+import { ColecaoLivroVinculoService } from './colecao-livro-vinculo.service';
+import { ColecaoLivroService } from './colecao-livro.service';
 
 @Injectable()
 export class LivroService {
@@ -11,6 +13,8 @@ export class LivroService {
     private readonly repository: Repository<Livro>,
 
     private readonly livroPerfilUsuarioService: LivroPerfilUsuarioService,
+
+    private readonly colecaoLivroService: ColecaoLivroService,
   ) {}
 
   async getAllBasico(
@@ -43,13 +47,20 @@ export class LivroService {
         });
       }
       if (obParams['leitura']) {
-        const livrosIds =
-          await this.livroPerfilUsuarioService.obterLivrosIdSituacao(
-            obParams['leitura'],
-          );
+        const livrosIds = await this.livroPerfilUsuarioService.obterLivrosIds(
+          obParams['leitura'],
+        );
+        qb.whereInIds(livrosIds);
+      }
+      if (obParams['colecao']) {
+        const livrosIds = await this.colecaoLivroService.obterLivrosIds(
+          obParams['colecao'],
+        );
         qb.whereInIds(livrosIds);
       }
     }
+
+    //console.log(qb.getSql());
 
     qb.cache(true);
 
