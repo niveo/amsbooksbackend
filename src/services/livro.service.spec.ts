@@ -1,22 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../app.module';
-import { IdiomaService } from './idioma.service';
+import { AppModule } from '../app.module';
 import { DataSource } from 'typeorm';
-import { Idioma } from '../../entities';
+import { Idioma } from '../entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { IDIOMAS } from '../../common';
+import { LivroService } from './livro.service';
 
-describe('IdiomaService', () => {
+describe('LivroService', () => {
   let dataSource: DataSource;
-  let service: IdiomaService;
+  let service: LivroService;
 
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([Idioma])],
-      providers: [IdiomaService],
+      providers: [LivroService],
     }).compile();
 
-    service = app.get<IdiomaService>(IdiomaService);
+    service = app.get<LivroService>(LivroService);
     dataSource = app.get<DataSource>(DataSource);
   });
 
@@ -27,13 +26,5 @@ describe('IdiomaService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  describe('Ler Idiomas', () => {
-    it('Deve retornar um registro', async () => {
-      const registros = await service.getAll();
-      expect(registros).not.toBeNull();
-      expect(registros).toHaveLength(IDIOMAS.length);
-    });
   });
 });

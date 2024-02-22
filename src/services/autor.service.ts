@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Autor } from '../../entities';
+import { Autor } from '../entities';
 import { Repository } from 'typeorm';
-import { UsuarioService } from '../usuario/usuario.service';
-import { AutorInputDto } from '../../models/dtos';
-import { IDataBaseService } from '../../interfaces';
+import { UsuarioService } from './usuario.service';
+import { AutorInputDto } from '../models/dtos';
+import { IDataBaseService } from '../interfaces';
 
 @Injectable()
 export class AutorService implements IDataBaseService<Autor> {

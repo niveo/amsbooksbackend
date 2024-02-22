@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { TagService } from '../../services';
+import { TagService } from '../services';
 
 @Controller({
   path: 'tags',

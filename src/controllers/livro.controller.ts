@@ -7,7 +7,7 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { LivroService } from '../../services/livro/livro.service';
+import { LivroService } from '../services';
 
 @Controller({
   path: 'livros',

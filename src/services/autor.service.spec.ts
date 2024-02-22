@@ -1,9 +1,9 @@
-import { UsuarioService } from './../usuario/usuario.service';
+import { UsuarioService } from './usuario.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AutorService } from './autor.service';
-import { TypeOrmSQLITETestingModule } from '../../test-utils/TypeORMSQLITETestingModule';
+import { TypeOrmSQLITETestingModule } from '../test-utils/TypeORMSQLITETestingModule';
 import { ClsService } from 'nestjs-cls';
-import { UUIDRandom } from '../../common/utils';
+import { UUIDRandom } from '../common/utils';
 import { createMock } from '@golevelup/ts-jest';
 
 describe('AutorService', () => {

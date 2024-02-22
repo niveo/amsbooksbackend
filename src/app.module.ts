@@ -16,6 +16,7 @@ import {
   SeedingService,
   LivroComentarioService,
   LivroHistoricoUsuarioService,
+  LivroPerfilUsuarioService,
 } from './services';
 
 import {
@@ -25,17 +26,18 @@ import {
   LivroController,
   TagController,
 } from './controllers';
-import { LivroService } from './services/livro/livro.service';
+import { LivroService } from './services/livro.service';
 import { AuthModule } from './authorization/auth.module';
 import { UsuarioMiddleware } from './middlewares/usuario.middleware';
-import { UsuarioService } from './services/usuario/usuario.service';
+import { UsuarioService } from './services/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
-import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
+import { LivroHistoricoUsuarioController } from './controllers/livro-historico-usuario.controller';
 import { DataBaseModule, CoreModule } from './modules';
-import { ColecaoLivroController } from './controllers/colecao/colecao-livro.controller';
-import { ColecaoLivroService } from './services/colecao/colecao-livro.service';
-import { ColecaoLivroVinculoService } from './services/colecao/colecao-livro-vinculo.service';
-import { ColecaoLivroVinculoController } from './controllers/colecao/colecao-livro-vinculo.controller';
+import { ColecaoLivroController } from './controllers/colecao-livro.controller';
+import { ColecaoLivroService } from './services/colecao-livro.service';
+import { ColecaoLivroVinculoService } from './services/colecao-livro-vinculo.service';
+import { ColecaoLivroVinculoController } from './controllers/colecao-livro-vinculo.controller';
+import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario.controller';
 
 @Module({
   imports: [CoreModule, AuthModule, DataBaseModule],
@@ -49,6 +51,7 @@ import { ColecaoLivroVinculoController } from './controllers/colecao/colecao-liv
     AutorController,
     ColecaoLivroController,
     ColecaoLivroVinculoController,
+    LivroPerfilUsuarioController
   ],
   providers: [
     {
@@ -68,6 +71,7 @@ import { ColecaoLivroVinculoController } from './controllers/colecao/colecao-liv
     LivroHistoricoUsuarioService,
     ColecaoLivroService,
     ColecaoLivroVinculoService,
+    LivroPerfilUsuarioService
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

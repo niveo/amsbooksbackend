@@ -9,6 +9,7 @@ import {
   Livro,
   LivroCapitulo,
   LivroComentario,
+  LivroPerfilUsuario,
   Tag,
   Usuario,
 } from '../entities';
@@ -25,6 +26,7 @@ export const ENTITIES = [
   LivroCapitulo,
   LivroComentario,
   ColecaoLivro,
+  LivroPerfilUsuario,
 ];
 
 @Module({

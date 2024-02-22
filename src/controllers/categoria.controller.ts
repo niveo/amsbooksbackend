@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { CategoriaService } from '../../services';
+import { CategoriaService } from '../services';
 
 @Controller({
   path: 'categorias',

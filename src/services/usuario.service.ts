@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Usuario } from '../../entities';
+import { Usuario } from '../entities';
 import { Repository } from 'typeorm';
 import { ClsService } from 'nestjs-cls';
-import { IDataBaseService } from '../../interfaces';
+import { IDataBaseService } from '../interfaces';
 
 @Injectable()
 export class UsuarioService implements IDataBaseService<Usuario> {

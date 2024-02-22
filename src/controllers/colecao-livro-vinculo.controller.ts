@@ -10,9 +10,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/authorization/jwt-auth.guard';
-import { ColecaoLivroVinculoService } from 'src/services/colecao/colecao-livro-vinculo.service';
-import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vinculo-input.dto';
+import { JwtAuthGuard } from '../authorization/jwt-auth.guard';
+import { ColecaoLivroVinculoService } from '../services/colecao-livro-vinculo.service';
+import { ColecaoLivroVinculoInputDto } from '../models/dtos/colecao-livro-vinculo-input.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller({

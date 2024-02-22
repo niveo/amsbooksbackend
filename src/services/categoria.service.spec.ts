@@ -1,22 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../app.module';
+import { AppModule } from '../app.module';
 import { DataSource } from 'typeorm';
-import { Idioma } from '../../entities';
+import { Idioma } from '../entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TAGS } from '../../common';
-import { TagService } from './tag.service';
+import { CATEGORIAS } from '../common';
+import { CategoriaService } from './categoria.service';
 
-describe('TagService', () => {
+describe('CategoriaService', () => {
   let dataSource: DataSource;
-  let service: TagService;
+  let service: CategoriaService;
 
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([Idioma])],
-      providers: [TagService],
+      providers: [CategoriaService],
     }).compile();
 
-    service = app.get<TagService>(TagService);
+    service = app.get<CategoriaService>(CategoriaService);
     dataSource = app.get<DataSource>(DataSource);
   });
 
@@ -29,11 +29,11 @@ describe('TagService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('Ler Tags', () => {
+  describe('Ler Categorias', () => {
     it('Deve retornar um registro', async () => {
       const registros = await service.getAll();
       expect(registros).not.toBeNull();
-      expect(registros).toHaveLength(TAGS.length);
+      expect(registros).toHaveLength(CATEGORIAS.length);
     });
   });
 });

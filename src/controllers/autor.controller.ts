@@ -10,8 +10,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AutorService } from '../../services';
-import { AutorInputDto } from '../../models/dtos';
+import { AutorService } from '../services';
+import { AutorInputDto } from '../models/dtos';
 import { JwtAuthGuard } from 'src/authorization/jwt-auth.guard';
 
 @Controller({
