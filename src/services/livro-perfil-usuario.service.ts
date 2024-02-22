@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LivroPerfilUsuario } from '../entities';
 import { LivroPerfilUsuarioInputDto } from '../models/dtos';
@@ -11,7 +11,11 @@ export class LivroPerfilUsuarioService {
   constructor(
     @InjectRepository(LivroPerfilUsuario)
     private readonly repository: Repository<LivroPerfilUsuario>,
+
+    @Inject(forwardRef(() => UsuarioService))
     private readonly usuarioService: UsuarioService,
+
+    @Inject(forwardRef(() => LivroService))
     private readonly livroService: LivroService,
   ) {}
 
@@ -40,5 +44,19 @@ export class LivroPerfilUsuarioService {
         ['usuario', 'livro'],
       )
     ).identifiers;
+  }
+
+  async obterLivrosIdSituacao(situacaoLeitura: number) {
+    const usuario = await this.usuarioService.obterUsuarioUserId();
+    return this.repository
+      .createQueryBuilder('livroPerfilUsuario')
+      .select('livro.id', 'id')
+      .innerJoin('livroPerfilUsuario.livro', 'livro')
+      .innerJoin('livroPerfilUsuario.usuario', 'usuario')
+      .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
+      .andWhere('livroPerfilUsuario.situacaoLeitura = :situacaoLeitura', {
+        situacaoLeitura: situacaoLeitura,
+      })
+      .getRawMany();
   }
 }

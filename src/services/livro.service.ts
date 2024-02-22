@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Livro } from '../entities';
 import { Repository } from 'typeorm';
+import { LivroPerfilUsuarioService } from './livro-perfil-usuario.service';
 
 @Injectable()
 export class LivroService {
   constructor(
     @InjectRepository(Livro)
     private readonly repository: Repository<Livro>,
+
+    private readonly livroPerfilUsuarioService: LivroPerfilUsuarioService,
   ) {}
 
   async getAllBasico(
@@ -39,6 +42,13 @@ export class LivroService {
           idTag: obParams['tag'],
         });
       }
+      if (obParams['leitura']) {
+        const livrosIds =
+          await this.livroPerfilUsuarioService.obterLivrosIdSituacao(
+            obParams['leitura'],
+          );
+        qb.whereInIds(livrosIds);
+      }
     }
 
     qb.cache(true);
@@ -50,26 +60,6 @@ export class LivroService {
     const rs = await qb.getManyAndCount();
 
     return { results: rs[0], count: rs[1] };
-  }
-
-  async getAllBasico2(pagesize, page): Promise<any[]> {
-    console.log(pagesize);
-    console.log(page);
-
-    const r1 = await this.repository
-      .createQueryBuilder('livro')
-      .select('livro.id', 'id')
-      .addSelect('livro.titulo', 'titulo')
-      .addSelect('autor.nome', 'autor')
-      .innerJoin('livro.autor', 'autor')
-      .cache(true)
-      //.limit(pagesize)
-      .offset(page * pagesize)
-      .getRawMany();
-
-    console.log(r1);
-
-    return r1; //Promise.all([...r1, ...r1, ...r1, ...r1, ...r1]);
   }
 
   getId(id: number): Promise<any> {
