@@ -15,16 +15,16 @@ export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
 
   async getAll(): Promise<{ id: number; descricao: string }[]> {
     const usuario = await this.usuarioService.obterUsuarioUserId();
-    return this.repository
+    const qb = this.repository
       .createQueryBuilder('colecaoLivro')
       .select('colecaoLivro.id', 'id')
       .addSelect('descricao')
-      .addSelect('COUNT(*)', 'vinculados')
+      .addSelect('COUNT(livros.id)', 'vinculados')
       .innerJoin('colecaoLivro.usuario', 'usuario')
       .leftJoin('colecaoLivro.livros', 'livros')
       .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
-      .groupBy('colecaoLivro.id, colecaoLivro.descricao')
-      .getRawMany();
+      .groupBy('colecaoLivro.id, colecaoLivro.descricao');
+    return qb.getRawMany();
   }
 
   async create(value: ColecaoLivro) {
