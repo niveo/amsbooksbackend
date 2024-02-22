@@ -19,8 +19,11 @@ export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
       .createQueryBuilder('colecaoLivro')
       .select('colecaoLivro.id', 'id')
       .addSelect('descricao')
+      .addSelect('COUNT(*)', 'vinculados')
       .innerJoin('colecaoLivro.usuario', 'usuario')
+      .leftJoin('colecaoLivro.livros', 'livros')
       .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
+      .groupBy('colecaoLivro.id, colecaoLivro.descricao')
       .getRawMany();
   }
 
