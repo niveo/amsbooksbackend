@@ -9,6 +9,7 @@ export class UsuarioMiddleware implements NestMiddleware {
     private readonly usuarioService: UsuarioService,
     private readonly authService: AuthService,
   ) {}
+
   use(req: Request, res: Response, next: NextFunction) {
     this.atualizarUsuarioToken(req);
     next();
