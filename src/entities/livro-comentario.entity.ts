@@ -20,17 +20,15 @@ export const NOME_TABELA_LIVRO_COMENTARIOS = 'livros_comentarios';
   name: NOME_TABELA_LIVRO_COMENTARIOS,
 })
 export class LivroComentario {
-  @PrimaryGeneratedColumn('increment', {
-    type: 'int',
-  })
+  @PrimaryGeneratedColumn('increment')
   id?: number;
 
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   texto: string;
 
-  @Column('timestamp', {
+  @Column({
     nullable: false,
   })
   displayTime?: Date;
@@ -39,7 +37,7 @@ export class LivroComentario {
   @CreateDateColumn()
   cadastrado?: Date;
 
-  @Column('integer', {
+  @Column({
     nullable: false,
   })
   rate?: number;

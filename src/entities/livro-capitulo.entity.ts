@@ -9,17 +9,17 @@ export const NOME_TABELA_LIVRO_CAPITULO = 'livros_capitulos';
 })
 export class LivroCapitulo extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   titulo: string;
 
-  @Column('integer', {
+  @Column({
     nullable: false,
   })
   capitulo: number;
 
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   texto: string;

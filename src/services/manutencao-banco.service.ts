@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, QueryRunner, TableForeignKey } from 'typeorm';
+import {
+  EntityManager,
+  QueryRunner,
+  TableColumn,
+  TableForeignKey,
+} from 'typeorm';
 import {
   NOME_TABELA_AUTOR,
+  NOME_TABELA_COLECAO_LIVROS,
   NOME_TABELA_LIVRO,
   NOME_TABELA_LIVRO_CAPITULO,
   NOME_TABELA_LIVRO_COMENTARIOS,
@@ -16,12 +22,33 @@ export class ManutencaoBancoService {
 
   async iniciar(): Promise<void> {
     await this.entityManager.transaction(async (tr) => {
-      await this.criarFk(
+      await this.createColumnTable(
         tr.queryRunner,
         NOME_TABELA_AUTOR,
+        new TableColumn({
+          type: 'text',
+          name: 'url',
+          isNullable: true,
+        }),
+      );
+
+      await this.createColumnTable(
+        tr.queryRunner,
         NOME_TABELA_USUARIO,
+        new TableColumn({
+          type: 'int',
+          name: 'autorId',
+          isNullable: true,
+        }),
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        NOME_TABELA_USUARIO,
+        NOME_TABELA_AUTOR,
         ['id'],
-        ['usuarioId'],
+        ['autorId'],
+        'SET NULL',
       );
 
       await this.criarFk(
@@ -47,6 +74,24 @@ export class ManutencaoBancoService {
         NOME_TABELA_USUARIO,
         ['id'],
         ['usuarioId'],
+        'CASCADE',
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        'usuario_has_colecoes',
+        NOME_TABELA_USUARIO,
+        ['id'],
+        ['usuariosId'],
+        'CASCADE',
+      );
+
+      await this.criarFk(
+        tr.queryRunner,
+        'colecoes_has_livros',
+        NOME_TABELA_COLECAO_LIVROS,
+        ['id'],
+        ['colecoesLivrosId'],
         'CASCADE',
       );
 
@@ -78,13 +123,35 @@ export class ManutencaoBancoService {
     });
   }
 
+  private async createColumnTable(
+    queryRunner: QueryRunner,
+    table: string,
+    column: TableColumn | TableColumn[],
+  ) {
+    const columns = (await queryRunner.getTable(table))?.columns;
+    if (!columns) return;
+    if (Array.isArray(column)) {
+      Promise.all(
+        column.map(async (m) => {
+          if (columns.findIndex((fi) => fi.name === m.name) === -1) {
+            await queryRunner.addColumn(table, m);
+          }
+        }),
+      );
+    } else {
+      if (columns.findIndex((fi) => fi.name === column.name) === -1) {
+        await queryRunner.addColumn(table, column);
+      }
+    }
+  }
+
   private async criarFk(
     queryRunner: QueryRunner,
     tabela: string,
     tabelaReferencia: string,
     camposReferencia: string[],
     campos: string[],
-    onDelete: 'CASCADE' | 'RESTRICT' = 'CASCADE',
+    onDelete: 'CASCADE' | 'RESTRICT' | 'SET NULL' = 'CASCADE',
   ) {
     const tabelaExiste = await queryRunner.getTable(tabela);
     if (tabelaExiste) {
@@ -92,7 +159,7 @@ export class ManutencaoBancoService {
       const nomeFk =
         'FK_' +
         v5(
-          `${tabela}_${tabelaReferencia}_${camposReferencia.join(',')}_${campos.join(',')}`,
+          `${tabela}_${tabelaReferencia}_${camposReferencia.join(',')}_${campos.join(',')}_${onDelete}`,
           MY_NAMESPACE,
         );
 

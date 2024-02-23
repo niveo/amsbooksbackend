@@ -6,7 +6,7 @@ export const NOME_TABELA_TAG = 'tags';
 @Entity({ name: NOME_TABELA_TAG })
 export class Tag extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
     unique: true,
   })

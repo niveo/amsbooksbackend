@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 export const converterConfig = (value, type) => {
   if (type === Boolean) {
     if (typeof value === 'string') {
@@ -8,4 +10,8 @@ export const converterConfig = (value, type) => {
     return value;
   }
   return true;
+};
+
+export const UUIDRandom = () => {
+  return v4().toString();
 };

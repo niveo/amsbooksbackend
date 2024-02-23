@@ -10,7 +10,7 @@ export class Idioma extends BaseEntity {
   @Index({
     unique: true,
   })
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   nome: string;

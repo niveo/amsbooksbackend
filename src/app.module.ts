@@ -1,17 +1,11 @@
-import { AuthService } from './authorization/auth.service';
 import {
   MiddlewareConsumer,
   Module,
   NestModule,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClsModule, ClsModuleFactoryOptions } from 'nestjs-cls';
-import { converterConfig } from './common/utils';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
 import {
@@ -22,97 +16,31 @@ import {
   SeedingService,
   LivroComentarioService,
   LivroHistoricoUsuarioService,
+  LivroPerfilUsuarioService,
 } from './services';
+
 import {
-  Autor,
-  Categoria,
-  Idioma,
-  Livro,
-  LivroCapitulo,
-  LivroComentario,
-  Tag,
-  Usuario,
-} from './entities';
-import {
+  AutorController,
   CategoriaController,
   LivroComentarioController,
   LivroController,
   TagController,
 } from './controllers';
-import { LivroService } from './services/livro/livro.service';
+import { LivroService } from './services/livro.service';
 import { AuthModule } from './authorization/auth.module';
 import { UsuarioMiddleware } from './middlewares/usuario.middleware';
-import { UsuarioService } from './services/usuario/usuario.service';
+import { UsuarioService } from './services/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
-import { LivroHistoricoUsuarioController } from './controllers/livro/livro-historico-usuario.controller';
+import { LivroHistoricoUsuarioController } from './controllers/livro-historico-usuario.controller';
+import { DataBaseModule, CoreModule } from './modules';
+import { ColecaoLivroController } from './controllers/colecao-livro.controller';
+import { ColecaoLivroService } from './services/colecao-livro.service';
+import { ColecaoLivroVinculoService } from './services/colecao-livro-vinculo.service';
+import { ColecaoLivroVinculoController } from './controllers/colecao-livro-vinculo.controller';
+import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario.controller';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    ClsModule.forRootAsync({
-      useFactory(authService: AuthService) {
-        const ca: ClsModuleFactoryOptions = {
-          middleware: {
-            // automatically mount the
-            // ClsMiddleware for all routes
-            mount: true,
-            setup: (cls, req: Request) => {
-              try {
-                const data = authService.getDataToken(req);
-                cls.set('userId', data.sub);
-              } catch (e) {}
-            },
-          },
-        };
-        return ca;
-      },
-    }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return {
-          extra: { max: 10 },
-          migrations: [],
-          migrate: true,
-          migrationsRun: true,
-          type: 'postgres',
-          host: process.env.PGHOST,
-          port: 5432,
-          username: process.env.PGUSER,
-          url: process.env.DATABASE_URL,
-          password: process.env.PGPASSWORD,
-          database: process.env.PGDATABASE,
-          entities: [
-            Usuario,
-            Idioma,
-            Categoria,
-            Tag,
-            Autor,
-            Livro,
-            LivroCapitulo,
-            LivroComentario,
-          ],
-          //Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
-          synchronize: !converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          ssl: converterConfig(process.env.ENV_PRODUCTION, Boolean),
-          logging: false,
-        };
-      },
-      inject: [ConfigService],
-    }),
-    TypeOrmModule.forFeature([
-      Usuario,
-      Idioma,
-      Categoria,
-      Tag,
-      Autor,
-      Livro,
-      LivroCapitulo,
-      LivroComentario,
-    ]),
-    AuthModule,
-  ],
+  imports: [CoreModule, AuthModule, DataBaseModule],
   controllers: [
     AppController,
     LivroController,
@@ -120,6 +48,10 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
     TagController,
     LivroComentarioController,
     LivroHistoricoUsuarioController,
+    AutorController,
+    ColecaoLivroController,
+    ColecaoLivroVinculoController,
+    LivroPerfilUsuarioController
   ],
   providers: [
     {
@@ -137,6 +69,9 @@ import { LivroHistoricoUsuarioController } from './controllers/livro/livro-histo
     ManutencaoBancoService,
     LivroComentarioService,
     LivroHistoricoUsuarioService,
+    ColecaoLivroService,
+    ColecaoLivroVinculoService,
+    LivroPerfilUsuarioService
   ],
 })
 export class AppModule implements OnApplicationBootstrap, NestModule {

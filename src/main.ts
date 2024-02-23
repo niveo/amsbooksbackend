@@ -2,19 +2,24 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-import { HttpExceptionFilter } from './common';
+import { EntityNotFoundExceptionFilter, HttpExceptionFilter } from './common';
 import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new EntityNotFoundExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   /*
     origin e credentials é usado para pegar a sessao do usuario
   */
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://amsbooksfrontend.onrender.com'],
+    origin: [
+      'http://localhost:4200',
+      'http://192.168.0.129:4200',
+      'https://amsbooksfrontend.onrender.com',
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type', 'userid'],

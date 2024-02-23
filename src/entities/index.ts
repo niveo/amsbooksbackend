@@ -6,3 +6,5 @@ export * from './livro.entity';
 export * from './livro-capitulo.entity';
 export * from './usuario.entity';
 export * from './livro-comentario.entity';
+export * from './colecao-livro.entity';
+export * from './livro-perfil-usuario.entity';

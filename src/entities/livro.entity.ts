@@ -26,20 +26,18 @@ export const NOME_TABELA_LIVRO = 'livros';
 })
 export class Livro extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
   })
   titulo: string;
 
   @Column({
-    type: 'text',
     unique: true,
     nullable: true,
   })
   isbn13?: string;
 
   @Column({
-    type: 'text',
     unique: true,
     nullable: true,
   })
@@ -60,7 +58,7 @@ export class Livro extends BaseEntity {
   @JoinColumn()
   idioma: Idioma;
 
-  @Column('boolean', {
+  @Column({
     nullable: false,
     default: false,
   })
@@ -85,21 +83,21 @@ export class Livro extends BaseEntity {
   tags?: Tag[];
 
   @Column({
-    type: 'enum',
-    enum: NivelLeitura,
     default: NivelLeitura.UNDEFINED,
   })
   nivelLeitura: NivelLeitura;
 
-  @Column('timestamp', {
+  @Column({
     nullable: true,
   })
   publicado?: Date;
 
-  @Column('text')
+  @Column({
+    nullable: false,
+  })
   descritivo: string;
 
-  @Column('uuid')
+  @Column({ unique: true, nullable: false })
   @Generated('uuid')
   identificador?: string;
 

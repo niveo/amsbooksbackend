@@ -6,7 +6,7 @@ import { AuthConfig } from './auth.config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private authConfig: AuthConfig) {
+  constructor(authConfig: AuthConfig) {
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,

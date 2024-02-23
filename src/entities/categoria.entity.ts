@@ -8,7 +8,7 @@ export const NOME_TABELA_CATEGORIA = 'categorias';
 })
 export class Categoria extends BaseEntity {
   @Index()
-  @Column('text', {
+  @Column({
     nullable: false,
     unique: true,
   })
