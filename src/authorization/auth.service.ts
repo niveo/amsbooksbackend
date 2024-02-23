@@ -24,11 +24,11 @@ export class AuthService {
         request.baseUrl +
         request.url +
         ' Autorizado: ' +
-        String(!(request.headers['authorization'] === undefined)),
+        String(!(request.headers.authorization === undefined)),
     );
 
-    if (request.headers['authorization']) {
-      const token = request.headers['authorization'].replace('Bearer ', '');
+    if (request.headers.authorization) {
+      const token = request.headers.authorization.replace('Bearer ', '');
       const { sub, name, email, email_verified } =
         this.jwtService.decode(token);
       return { sub, name, email, email_verified, token };

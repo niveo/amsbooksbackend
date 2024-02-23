@@ -22,7 +22,12 @@ async function bootstrap() {
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Authorization', 'Content-Type', 'userid'],
+    allowedHeaders: [
+      'authorization',
+      'Content-Type',
+      'userid',
+      'Access-Control-Allow-Credentials',
+    ],
     maxAge: 86400,
   });
 
