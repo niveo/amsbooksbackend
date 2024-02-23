@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  OnApplicationBootstrap,
-} from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_GUARD } from '@nestjs/core';
@@ -28,7 +23,6 @@ import {
 } from './controllers';
 import { LivroService } from './services/livro.service';
 import { AuthModule } from './authorization/auth.module';
-import { UsuarioMiddleware } from './middlewares/usuario.middleware';
 import { UsuarioService } from './services/usuario.service';
 import { ManutencaoBancoService } from './services/manutencao-banco.service';
 import { LivroHistoricoUsuarioController } from './controllers/livro-historico-usuario.controller';
@@ -38,6 +32,7 @@ import { ColecaoLivroService } from './services/colecao-livro.service';
 import { ColecaoLivroVinculoService } from './services/colecao-livro-vinculo.service';
 import { ColecaoLivroVinculoController } from './controllers/colecao-livro-vinculo.controller';
 import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario.controller';
+import { AutenticacaoController } from './authorization/autenticacao.controller';
 
 @Module({
   imports: [CoreModule, AuthModule, DataBaseModule],
@@ -51,7 +46,8 @@ import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario
     AutorController,
     ColecaoLivroController,
     ColecaoLivroVinculoController,
-    LivroPerfilUsuarioController
+    LivroPerfilUsuarioController,
+    AutenticacaoController,
   ],
   providers: [
     {
@@ -71,18 +67,14 @@ import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario
     LivroHistoricoUsuarioService,
     ColecaoLivroService,
     ColecaoLivroVinculoService,
-    LivroPerfilUsuarioService
+    LivroPerfilUsuarioService,
   ],
 })
-export class AppModule implements OnApplicationBootstrap, NestModule {
+export class AppModule implements OnApplicationBootstrap {
   constructor(
     private readonly manutencaoBancoService: ManutencaoBancoService,
     private readonly seedingService: SeedingService,
   ) {}
-
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UsuarioMiddleware).forRoutes('*');
-  }
 
   async onApplicationBootstrap() {
     await this.manutencaoBancoService.iniciar();

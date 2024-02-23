@@ -31,6 +31,10 @@ async function bootstrap() {
     maxAge: 86400,
   });
 
+  /**
+   * Não sera mais necessario usar a sessão para verificar se o usuário esta ativo
+   */
+  /*   
   app.use(
     session({
       name: 'amsbooks_session',
@@ -41,7 +45,8 @@ async function bootstrap() {
         maxAge: 1000 * 60 * 100,
       },
     }),
-  );
+  ); 
+  */
 
   app.use(
     helmet({

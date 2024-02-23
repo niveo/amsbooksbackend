@@ -29,9 +29,12 @@ export class AuthService {
 
     if (request.headers.authorization) {
       const token = request.headers.authorization.replace('Bearer ', '');
-      const { sub, name, email, email_verified } =
-        this.jwtService.decode(token);
-      return { sub, name, email, email_verified, token };
+      return this.decodeToken(token);
     } else return null;
+  }
+
+  decodeToken(token: string) {
+    const { sub, name, email, email_verified } = this.jwtService.decode(token);
+    return { sub, name, email, email_verified, token };
   }
 }
