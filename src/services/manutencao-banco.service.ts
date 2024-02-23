@@ -128,7 +128,8 @@ export class ManutencaoBancoService {
     table: string,
     column: TableColumn | TableColumn[],
   ) {
-    const columns = (await queryRunner.getTable(table)).columns;
+    const columns = (await queryRunner.getTable(table))?.columns;
+    if (!columns) return;
     if (Array.isArray(column)) {
       Promise.all(
         column.map(async (m) => {
