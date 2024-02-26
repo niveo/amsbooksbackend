@@ -4,6 +4,7 @@ import { ColecaoLivro } from '../entities';
 import { Repository } from 'typeorm';
 import { IDataBaseService } from '../interfaces';
 import { UsuarioService } from './usuario.service';
+import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vinculo-input.dto';
 
 @Injectable()
 export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
@@ -24,6 +25,7 @@ export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
       .leftJoin('colecaoLivro.livros', 'livros')
       .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
       .groupBy('colecaoLivro.id, colecaoLivro.descricao');
+
     return qb.getRawMany();
   }
 
@@ -53,5 +55,17 @@ export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
       .where('usuario.id = :usuarioId', { usuarioId: usuario.id })
       .andWhere('colecaoLivros.id = :colecaoId', { colecaoId: colecaoId })
       .getRawMany();
+  }
+
+  async createVinculo(value: ColecaoLivroVinculoInputDto) {
+    await this.repository.query(
+      `INSERT INTO colecoes_has_livros VALUES (${value.colecaoId},${value.livroId})`,
+    );
+  }
+
+  async deleteVinculo(value: ColecaoLivroVinculoInputDto) {
+    await this.repository.query(
+      `DELETE FROM  colecoes_has_livros WHERE colecoesLivrosId = ${value.colecaoId} AND livrosId = ${value.livroId}`,
+    );
   }
 }
