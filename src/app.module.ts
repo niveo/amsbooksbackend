@@ -1,7 +1,7 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Inject, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthorizationGuard } from './authorization/authorization.guard';
 import {
   CategoriaService,
@@ -33,9 +33,21 @@ import { ColecaoLivroVinculoService } from './services/colecao-livro-vinculo.ser
 import { ColecaoLivroVinculoController } from './controllers/colecao-livro-vinculo.controller';
 import { LivroPerfilUsuarioController } from './controllers/livro-perfil-usuario.controller';
 import { AutenticacaoController } from './authorization/autenticacao.controller';
+import {
+  CACHE_MANAGER,
+  CacheInterceptor,
+  CacheModule,
+} from '@nestjs/cache-manager';
 
 @Module({
-  imports: [CoreModule, AuthModule, DataBaseModule],
+  imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
+    CoreModule,
+    AuthModule,
+    DataBaseModule,
+  ],
   controllers: [
     AppController,
     LivroController,
@@ -50,6 +62,10 @@ import { AutenticacaoController } from './authorization/autenticacao.controller'
     AutenticacaoController,
   ],
   providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
     {
       provide: APP_GUARD,
       useClass: AuthorizationGuard,
@@ -74,10 +90,16 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(
     private readonly manutencaoBancoService: ManutencaoBancoService,
     private readonly seedingService: SeedingService,
+
   ) {}
 
   async onApplicationBootstrap() {
+    console.log('Iniciado manutenção BD');
     await this.manutencaoBancoService.iniciar();
+    console.log('Finalizado manutenção BD');
+    
+    console.log('Iniciado seed BD');
     await this.seedingService.iniciar();
+    console.log('Finalizado seed BD');
   }
 }
