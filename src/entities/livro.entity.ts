@@ -18,6 +18,7 @@ import { LivroCapitulo } from './livro-capitulo.entity';
 import { Tag } from './tag.entity';
 import { NivelLeitura } from './../enuns/nivel-leitura.enum';
 import { LivroComentario } from './livro-comentario.entity';
+import { ColecaoLivro } from './colecao-livro.entity';
 
 export const NOME_TABELA_LIVRO = 'livros';
 
@@ -114,4 +115,7 @@ export class Livro extends BaseEntity {
     //onDelete: 'CASCADE' *não é implementado pelo typeorm,
   })
   comentarios?: LivroComentario[];
+
+  @ManyToMany(() => ColecaoLivro, (metadata) => metadata.livros) 
+  public colecoes?: ColecaoLivro[];
 }

@@ -29,13 +29,11 @@ export class ColecaoLivro extends BaseEntity {
   })
   usuario?: Usuario;
 
-  @ManyToMany(() => Livro, {
+  @ManyToMany(() => Livro, (metadata) => metadata.colecoes, {
     cascade: true,
     createForeignKeyConstraints: false,
     //onDelete: 'RESTRICT' *não é implementado pelo typeorm,
   })
-  @JoinTable({
-    name: 'colecoes_has_livros',
-  })
+  @JoinTable({ name: 'colecoes_has_livros' })
   livros?: Livro[];
 }
