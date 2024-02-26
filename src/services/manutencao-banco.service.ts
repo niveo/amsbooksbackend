@@ -170,6 +170,9 @@ export class ManutencaoBancoService {
       //console.log(tabela, tabelaReferencia, nomeFk, indexFk);
 
       if (indexFk !== -1) return;
+
+      console.log(`Criando FK ${tabela}.${nomeFk}`);
+
       await queryRunner.createForeignKey(
         tabela,
         new TableForeignKey({
