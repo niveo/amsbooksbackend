@@ -14,9 +14,9 @@ export class CategoriaService {
   getAll(): Promise<any[]> {
     return this.dataSource.query(`
       WITH livrosCategorias AS (
-        SELECT livros."categoriaId", count(*) as contaLivros FROM livros group by "categoriaId"
+        SELECT livros."categoriaId", count(*) as contalivros FROM livros group by "categoriaId"
       )
-      SELECT categorias.id, categorias.nome, livrosCategorias.contaLivros FROM categorias
+      SELECT categorias.id, categorias.nome, livrosCategorias.contalivros FROM categorias
       left outer join livrosCategorias ON livrosCategorias."categoriaId" = categorias.id
       order by categorias.nome
     `);
