@@ -15,13 +15,11 @@ async function bootstrap() {
   */
   app.enableCors({
     origin: [
-      '*',
       'http://localhost:4200',
       'http://192.168.0.129:4200',
       'https://amsbooksfrontend.onrender.com',
     ],
-    //Apenas para sessão
-    //credentials: true,
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
       'authorization',
