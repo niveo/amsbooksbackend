@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { EntityNotFoundExceptionFilter, HttpExceptionFilter } from './common';
-import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +26,7 @@ async function bootstrap() {
       'Content-Type',
       'userid',
       'Access-Control-Allow-Credentials',
+      'Access-Control-Allow-Origin',
     ],
     maxAge: 86400,
   });
@@ -35,6 +35,7 @@ async function bootstrap() {
    * Não sera mais necessario usar a sessão para verificar se o usuário esta ativo
    */
   /*   
+  import * as session from 'express-session';
   app.use(
     session({
       name: 'amsbooks_session',
