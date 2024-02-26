@@ -14,10 +14,10 @@ export class TagService {
   getAll(): Promise<any[]> {
     return this.dataSource.query(`
       WITH livrosTags AS (
-        SELECT livros_has_tags."tagsId", count(*) contaLivros
+        SELECT livros_has_tags."tagsId", count(*) contalivros
         FROM livros_has_tags group by livros_has_tags."tagsId"
       )
-      SELECT tags.id, tags.nome, livrosTags.contaLivros FROM tags
+      SELECT tags.id, tags.nome, livrosTags.contalivros FROM tags
       left outer join livrosTags ON livrosTags."tagsId" = tags.id
       order by tags.nome
     `);
