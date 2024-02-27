@@ -10,8 +10,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { LivroComentarioInputDto } from 'src/models/dtos';
-import { LivroComentarioService } from 'src/services';
+import { LivroComentarioInputDto } from '../models/dtos';
+import { LivroComentarioService } from '../services';
 
 @Controller({
   path: 'livros_comentarios',

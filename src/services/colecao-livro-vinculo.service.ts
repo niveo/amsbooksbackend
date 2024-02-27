@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vinculo-input.dto';
+import { ColecaoLivroVinculoInputDto } from '../models/dtos/colecao-livro-vinculo-input.dto';
 import { ColecaoLivroService } from './colecao-livro.service';
 import { UsuarioService } from './usuario.service';
 

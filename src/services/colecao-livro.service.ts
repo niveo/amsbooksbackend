@@ -4,7 +4,7 @@ import { ColecaoLivro } from '../entities';
 import { Repository } from 'typeorm';
 import { IDataBaseService } from '../interfaces';
 import { UsuarioService } from './usuario.service';
-import { ColecaoLivroVinculoInputDto } from 'src/models/dtos/colecao-livro-vinculo-input.dto';
+import { ColecaoLivroVinculoInputDto } from '../models/dtos/colecao-livro-vinculo-input.dto';
 
 @Injectable()
 export class ColecaoLivroService implements IDataBaseService<ColecaoLivro> {
