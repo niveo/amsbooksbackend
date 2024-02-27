@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ColecaoLivroInputDto } from '../models/dtos';
 import { ColecaoLivroService } from '../services/colecao-livro.service';
-import { JwtAuthGuard } from 'src/authorization/jwt-auth.guard';
+import { JwtAuthGuard } from '../authorization/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller({

@@ -12,7 +12,7 @@ import {
   NOME_TABELA_TAG,
   Tag,
 } from '../entities';
-import { NivelLeitura } from 'src/enuns';
+import { NivelLeitura } from '../enuns';
 import { In } from 'typeorm';
 import { resolve } from 'node:path';
 import { load } from 'cheerio';

@@ -6,7 +6,7 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { LivroHistoricoUsuarioService } from 'src/services';
+import { LivroHistoricoUsuarioService } from '../services';
 
 @Controller({
   path: 'livro_historico_usuario',

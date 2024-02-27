@@ -10,8 +10,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { LivroPerfilUsuarioService } from '../services';
-import { LivroPerfilUsuarioInputDto } from 'src/models/dtos';
-import { JwtAuthGuard } from 'src/authorization/jwt-auth.guard';
+import { LivroPerfilUsuarioInputDto } from '../models/dtos';
+import { JwtAuthGuard } from '../authorization/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller({

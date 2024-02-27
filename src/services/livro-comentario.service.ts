@@ -1,9 +1,9 @@
-import { LivroService, UsuarioService } from 'src/services';
+import { LivroService, UsuarioService } from '../services';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LivroComentario } from 'src/entities';
+import { LivroComentario } from '../entities';
 import { Repository } from 'typeorm';
-import { LivroComentarioInputDto } from 'src/models/dtos';
+import { LivroComentarioInputDto } from '../models/dtos';
 
 @Injectable()
 export class LivroComentarioService {

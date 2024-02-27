@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { UsuarioService } from 'src/services';
-import { AuthService } from 'src/authorization/auth.service';
+import { UsuarioService } from '../services';
+import { AuthService } from '../authorization/auth.service';
 
 @Injectable()
 export class UsuarioMiddleware implements NestMiddleware {
