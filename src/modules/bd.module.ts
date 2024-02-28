@@ -13,7 +13,6 @@ import {
   Tag,
   Usuario,
 } from '../entities';
-import { converterConfig } from '../common/utils';
 import { ConfigService } from '@nestjs/config';
 
 export const ENTITIES = [
@@ -33,7 +32,7 @@ export const ENTITIES = [
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => {
-        if (converterConfig(process.env.ENV_PRODUCTION, Boolean)) {
+        if (process.env.ENV_PRODUCTION.toBoolean()) {
           return {
             extra: { max: 10 },
             migrations: [],
@@ -59,7 +58,7 @@ export const ENTITIES = [
             //dropSchema: true,
             synchronize: true,
             entities: ENTITIES,
-            logging: converterConfig(process.env.ENV_TYPEORM_LOG, Boolean),
+            logging: process.env.ENV_TYPEORM_LOG.toBoolean(),
           };
         }
       },

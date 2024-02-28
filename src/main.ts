@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { EntityNotFoundExceptionFilter, HttpExceptionFilter } from './common';
+import './common/string.extensions';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
